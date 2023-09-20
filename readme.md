@@ -21,13 +21,24 @@ This project will benefit the entire university community, including students, f
 By serving as a platform for reusing and recycling items within the university community, this project not only meets the needs of its users but also aligns with environmentally conscious practices, reducing waste, conserving resources, and promoting a sustainable and eco-friendly campus culture.
 
 ## d) What data will be saved in the database?
+In the database, the University Student Marketplace project will store a diverse range of data critical to its functionality:
+
+* User profiles will encompass essential details such as names, university email addresses, securely hashed passwords, and optional profile pictures, contact information and records of items bought or sold. These bought and sold sections within user profiles will provide users with a summary of their transaction history, showcasing items they have purchased and items they have successfully sold through the platform.
+
+* Listings, representing items for sale, will include information like titles, descriptions, prices, categories, and images, often tied to seller profiles through user IDs.
+
+* Transaction records will track the history of completed purchases and sales, including buyer and seller data, transaction dates, and payment details. 
+
+* Categories will have unique identifiers, names, descriptions, and images, helping classify listings efficiently.
+
+* Session data and security tokens will manage user authentication and authorization, and system logs will capture operational information and errors.
 
 
 ## e) What will be the easiest part of this project?
 
 
 ## f) What will be the most difficult part of this project?
-
+The most challenging aspect of this project is likely to be implementing a secure and scalable real-time messaging system, alongside the integration of payment gateways, Kafka, and MongoDB. This complexity arises from the need for real-time message delivery, data synchronization across devices, security considerations (including encryption and privacy), scalability to handle increasing user loads, managing notifications, and ensuring a smooth user experience while handling errors and maintaining message persistence. The integration of payment gateways introduces additional complexities, such as secure and seamless transaction processing, while Kafka and MongoDB tools will be instrumental in managing real-time data streams and robust database storage. Careful planning, specialized tools, and ongoing maintenance will be necessary to address these complexities effectively.
 
 ## g) What tools and technologies are used in this project?
 
