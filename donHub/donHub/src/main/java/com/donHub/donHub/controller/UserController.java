@@ -9,71 +9,57 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
-import com.donHub.donHub.User;
+import com.donHub.donHub.model.User;
 import com.donHub.donHub.service.UserServiceI;
 
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class UserController {
 @Autowired
-UserServiceI userservice;
+private UserServiceI userService;
 
-@GetMapping()
-public ResponseEntity<List<User>> getallusers(){
-	return new ResponseEntity<>(userservice.getallUsers(), HttpStatus.OK);
+@GetMapping("/getAllUsers")
+public ResponseEntity<Object> getAllPlayers() {
+	List<User> users = userService.getAllUsers();
+	return users != null ? ResponseEntity.status(HttpStatus.FOUND).body(users)
+			: ResponseEntity.status(HttpStatus.NOT_FOUND).body("No users found!");
 }
 
-@GetMapping("/getbyid/{id}")
-public ResponseEntity<Optional<User>> getuserbyId(@PathVariable Integer id){
-	return new ResponseEntity<>(userservice.getuserbyId(id), HttpStatus.OK);
+
+@GetMapping("/getUserById/{userId}")
+public ResponseEntity<Object> getPlayerById(@PathVariable Long userId) {
+	Optional<User> user = userService.getUserById(userId);
+	return user != null ? ResponseEntity.status(HttpStatus.FOUND).body(user)
+			: ResponseEntity.status(HttpStatus.NOT_FOUND).body("No user found!");
+
 }
 
-@PostMapping()
-public ResponseEntity<String> save(@RequestBody User user){
-	User userdetail = userservice.save(user);
-	if(userdetail!=null)
-		return new ResponseEntity<String>("Successfully added the data", HttpStatus.OK);
-	else
-		return new ResponseEntity<String>("The record you are trying to add is already present", HttpStatus.BAD_REQUEST);
+@PutMapping("/updateUser/{userId}")
+public ResponseEntity<Object> updatePlayer(@PathVariable Long userId, @RequestBody User updateUser) {
+	Optional<User> updatedUser = userService.updateUser(userId, updateUser);
+	return updatedUser != null ? ResponseEntity.status(HttpStatus.OK).body(updatedUser)
+			: ResponseEntity.status(HttpStatus.NOT_FOUND).body("No player found to update!");
 }
 
-@PutMapping("/{id}")
-public ResponseEntity<String> update(@PathVariable int id, @RequestBody User user){
-	if(userservice.getuserbyId(id).isPresent())
-		userservice.update(id, user);
-	else
-		return new ResponseEntity<String>("There is no data to update", HttpStatus.NO_CONTENT);
-	return new ResponseEntity<String>("Successfully updated the data", HttpStatus.OK);
+@DeleteMapping("/deleteAllUsers")
+public ResponseEntity<Object> deleteAllUsers() {
+	Boolean areDeleted = userService.deleteAllUsers();
+	return areDeleted ? ResponseEntity.status(HttpStatus.OK).body("All users deleted successfully!")
+			: ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No users found to delete!");
 }
 
-@DeleteMapping()
-public ResponseEntity<String> deleteallusers(){
-	if(!userservice.getallUsers().isEmpty())
-		userservice.deleteallUsers();
-	else
-		return new ResponseEntity<String>("There is no data to delete", HttpStatus.NO_CONTENT);
-	if(!userservice.getallUsers().isEmpty())
-		return new ResponseEntity<String>("Unable to delete", HttpStatus.NO_CONTENT);
-	return new ResponseEntity<String>("successfully deleted all records", HttpStatus.OK);
+@DeleteMapping({ "/deleteUserById/{userId}" })
+public ResponseEntity<Object> deleteUserById(@PathVariable Long userId) {
+	Boolean isDeleted = userService.deleteUserById(userId);
+	return isDeleted ? ResponseEntity.status(HttpStatus.OK).body("User deleted successfully!")
+			: ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No user found to delete!");
 }
 
-@DeleteMapping("/{id}")
-public ResponseEntity<String> deleteuserbyId(@PathVariable Integer id){
-	if(userservice.getuserbyId(id).isPresent())
-		userservice.deleteuserbyId(id);
-	else
-		return new ResponseEntity<String>("there is no data to delete", HttpStatus.NO_CONTENT);
-	if(userservice.getuserbyId(id).isPresent())
-		return new ResponseEntity<String>("Unable to delete", HttpStatus.NO_CONTENT);
-	return new ResponseEntity<String>("successfully deleted the data", HttpStatus.OK);
-	
-}
 }

@@ -1,62 +1,56 @@
 package com.donHub.donHub.service;
 
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.donHub.donHub.User;
+import com.donHub.donHub.model.User;
 import com.donHub.donHub.repository.UserRepositoryI;
 
 @Service
-public class UserService implements UserServiceI{
+public class UserService {
 	@Autowired
-	UserRepositoryI userrepository;
+	private UserRepositoryI userRepository;
 	
-	@Override
-	public List<User> getallUsers(){
-		return (List<User>) userrepository.findAll();
+	public List<User> getAllUsers(){
+		List<User> users = (List<User>) userRepository.findAll();
+		return (users.isEmpty()) ? null : users;
 	}
 	
-	@Override
-	public Optional<User> getuserbyId(Integer id){
-		return userrepository.findById(id);
+	public User getUserById(Long userId){
+		return userRepository.findById(userId).orElse(null);
 	}
 	
-	@Override
-	public User save(User user) {
-		boolean check = checkDuplicates(user);
-		if (!check)
-			return (User) userrepository.save(user);
-		else
-			return null;
+	public User createUser(User user) {
+	
+		return userRepository.save(user);
 	}
 	
-	@Override
-	public void deleteallUsers() {
-		userrepository.deleteAll();
-	}
 	
-	@Override
-	public void deleteuserbyId(Integer id) {
-		userrepository.deleteById(id);
-	}
 	
-	@Override
-	public User update(Integer id, User userupdate) {
-		return userrepository.save(userupdate);
-	}
-	
-	private boolean checkDuplicates(User user) {
-		List<User> users = (List<User>) userrepository.findAll();
-		for (User userdetail : users) {
-			if (user.getName().equals(users.getName())) {
-				return true;
-			}
+	public boolean deleteAllPlayers() {
+		boolean areDeleted = false;
+		if (!((List<User>) userRepository.findAll()).isEmpty()) {
+			userRepository.deleteAll();
+			areDeleted = true;
 		}
-		return false;
+		return areDeleted;
+	}
+	
+	public boolean deletePlayerById(Long userId) {
+		boolean isDeleted = false;
+		User user = userRepository.findById(userId).orElse(null);
+		if (user != null) {
+			userRepository.delete(user);
+			isDeleted = true;
+		}
+		return isDeleted;
+
+	}
+	
+	public User updateUser(Long userId, User user) {
+		return userRepository.save(user);
 	}
 }

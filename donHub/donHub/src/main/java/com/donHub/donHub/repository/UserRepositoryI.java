@@ -2,8 +2,8 @@ package com.donHub.donHub.repository;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.donHub.donHub.User;
+import com.donHub.donHub.model.User;
 
-public interface UserRepositoryI extends CrudRepository<User, Integer>{
+public interface UserRepositoryI extends CrudRepository<User, Long>{
 
 }

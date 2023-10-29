@@ -3,14 +3,17 @@ package com.donHub.donHub.service;
 import java.util.List;
 import java.util.Optional;
 
-import com.donHub.donHub.User;
+import com.donHub.donHub.model.User;
 
 
 public interface UserServiceI {
-	List<User> getallUsers();
-	Optional<User> getuserbyId(Integer id);
-	User save(User user);
-	User update(Integer id, User userupdate);
-	void deleteallUsers();
-	void deleteuserbyId(Integer id);
+	List<User> getAllUsers();
+	Optional<User> getUserById(Long userId);
+	
+	Optional<User> createUser(User user);
+	
+	Optional<User> updateUser(Long userId, User user);
+	
+	boolean deleteAllUsers();
+	boolean deleteUserById(Long userId);
 }
