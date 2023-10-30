@@ -30,7 +30,7 @@ public class UserService {
 	
 	
 	
-	public boolean deleteAllPlayers() {
+	public boolean deleteAllUsers() {
 		boolean areDeleted = false;
 		if (!((List<User>) userRepository.findAll()).isEmpty()) {
 			userRepository.deleteAll();
@@ -39,7 +39,7 @@ public class UserService {
 		return areDeleted;
 	}
 	
-	public boolean deletePlayerById(Long userId) {
+	public boolean deleteUserById(Long userId) {
 		boolean isDeleted = false;
 		User user = userRepository.findById(userId).orElse(null);
 		if (user != null) {

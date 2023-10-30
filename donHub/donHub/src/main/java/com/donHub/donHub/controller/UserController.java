@@ -9,11 +9,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 
 import com.donHub.donHub.model.User;
 import com.donHub.donHub.service.UserServiceI;
@@ -26,7 +26,7 @@ public class UserController {
 private UserServiceI userService;
 
 @GetMapping("/getAllUsers")
-public ResponseEntity<Object> getAllPlayers() {
+public ResponseEntity<Object> getAllUsers() {
 	List<User> users = userService.getAllUsers();
 	return users != null ? ResponseEntity.status(HttpStatus.FOUND).body(users)
 			: ResponseEntity.status(HttpStatus.NOT_FOUND).body("No users found!");
@@ -34,15 +34,28 @@ public ResponseEntity<Object> getAllPlayers() {
 
 
 @GetMapping("/getUserById/{userId}")
-public ResponseEntity<Object> getPlayerById(@PathVariable Long userId) {
+public ResponseEntity<Object> getUserById(@PathVariable Long userId) {
 	Optional<User> user = userService.getUserById(userId);
 	return user != null ? ResponseEntity.status(HttpStatus.FOUND).body(user)
 			: ResponseEntity.status(HttpStatus.NOT_FOUND).body("No user found!");
 
 }
 
+/**
+ * method to add user data in the database
+ * @param data
+ * @return
+ */
+@PostMapping()
+public ResponseEntity<Object> addUser(@RequestBody User data) {
+	Optional<User> user =  userService.createUser(data);
+	return user != null ? ResponseEntity.status(HttpStatus.FOUND).body(user)
+			: ResponseEntity.status(HttpStatus.NOT_FOUND).body("No user found!");
+
+}
+
 @PutMapping("/updateUser/{userId}")
-public ResponseEntity<Object> updatePlayer(@PathVariable Long userId, @RequestBody User updateUser) {
+public ResponseEntity<Object> updateUser(@PathVariable Long userId, @RequestBody User updateUser) {
 	Optional<User> updatedUser = userService.updateUser(userId, updateUser);
 	return updatedUser != null ? ResponseEntity.status(HttpStatus.OK).body(updatedUser)
 			: ResponseEntity.status(HttpStatus.NOT_FOUND).body("No player found to update!");
