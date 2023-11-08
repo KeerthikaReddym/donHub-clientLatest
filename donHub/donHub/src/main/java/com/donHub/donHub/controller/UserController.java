@@ -30,7 +30,6 @@ public class UserController {
 	 * @return ResponseEntity<Object> containing a list of users if found, otherwise
 	 *         a message indicating no users found
 	 */
-
 	@GetMapping("/getAllUsers")
 	public ResponseEntity<Object> getAllUsers() {
 		List<User> users = userService.getAllUsers();
@@ -45,7 +44,6 @@ public class UserController {
 	 * @return ResponseEntity<Object> containing the user if found, otherwise a
 	 *         message indicating no user found
 	 */
-
 	@GetMapping("/getUserById/{userId}")
 	public ResponseEntity<Object> getUserById(@PathVariable Long userId) {
 		Optional<User> user = userService.getUserById(userId);
@@ -61,7 +59,6 @@ public class UserController {
 	 * @return ResponseEntity<Object> containing the created user if successful,
 	 *         otherwise a message indicating no user found
 	 */
-
 	@PostMapping()
 	public ResponseEntity<Object> addUser(@RequestBody User data) {
 		Optional<User> user = userService.createUser(data);
@@ -78,7 +75,6 @@ public class UserController {
 	 * @return ResponseEntity<Object> containing the updated user if successful,
 	 *         otherwise a message indicating no user found to update
 	 */
-
 	@PutMapping("/updateUser/{userId}")
 	public ResponseEntity<Object> updateUser(@PathVariable Long userId, @RequestBody User updateUser) {
 		Optional<User> updatedUser = userService.updateUser(userId, updateUser);
@@ -93,7 +89,6 @@ public class UserController {
 	 *         successfully, otherwise a message indicating no users found for
 	 *         deletion
 	 */
-
 	@DeleteMapping("/deleteAllUsers")
 	public ResponseEntity<Object> deleteAllUsers() {
 		Boolean areDeleted = userService.deleteAllUsers();
@@ -109,7 +104,6 @@ public class UserController {
 	 *         successfully, otherwise a message indicating no user found for
 	 *         deletion
 	 */
-
 	@DeleteMapping({ "/deleteUserById/{userId}" })
 	public ResponseEntity<Object> deleteUserById(@PathVariable Long userId) {
 		Boolean isDeleted = userService.deleteUserById(userId);
