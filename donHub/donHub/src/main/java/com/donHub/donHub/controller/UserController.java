@@ -16,13 +16,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.donHub.donHub.model.User;
+import com.donHub.donHub.service.Authentication;
 import com.donHub.donHub.service.UserServiceI;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
 	@Autowired
-	private UserServiceI userService;
+	private UserServiceI userService;;
+	@Autowired
+	private Authentication authentication;
 
 	/**
 	 * Retrieves all users from the database.
@@ -62,6 +65,8 @@ public class UserController {
 	@PostMapping()
 	public ResponseEntity<Object> addUser(@RequestBody User data) {
 		Optional<User> user = userService.createUser(data);
+		//send the user a code to his mail id and prompt him to send the code back
+		authentication.authenticate(data);
 		return user != null ? ResponseEntity.status(HttpStatus.FOUND).body(user)
 				: ResponseEntity.status(HttpStatus.NOT_FOUND).body("No user found!");
 
