@@ -32,6 +32,7 @@ public class ProductController {
 	}
 	/**
 	 * 
+
 	 * @return get list of products
 	 */
 	@GetMapping
@@ -39,9 +40,11 @@ public class ProductController {
 
 		return  new ResponseEntity<>(productServiceI.addProduct(), HttpStatus.OK);
 	}
+	
+
 	/**
 	 * 
-	 * @return get prdouct by id
+	 * @return list of restaurant table
 	 */
 	@GetMapping
 	public ResponseEntity<Product> getProductByID(Integer id) {
@@ -50,7 +53,7 @@ public class ProductController {
 	}
 	/**
 	 * 
-	 * @return delete prodcut by id
+	 * @return list of restaurant table
 	 */
 	@DeleteMapping
 	public ResponseEntity<Product> deleteProduct(Integer id) {
@@ -59,7 +62,7 @@ public class ProductController {
 	}
 	/**
 	 * 
-	 * @return Update product using product data
+	 * @return list of restaurant table
 	 */
 	@PutMapping
 	public ResponseEntity<Product> updateProduct(ProductRequest productRequest) {
