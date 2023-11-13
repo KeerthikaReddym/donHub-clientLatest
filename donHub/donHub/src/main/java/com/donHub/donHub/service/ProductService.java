@@ -30,4 +30,15 @@ public class ProductService implements ProductServiceI{
 		return null;
 	}
 
+	@Override
+	public Product updateProduct() {
+		//
+		return null;
+	}
+
+	@Override
+	public Product getProductById(Long id) {
+		productRepository.findById(id);
+		return null;
+	}
 }

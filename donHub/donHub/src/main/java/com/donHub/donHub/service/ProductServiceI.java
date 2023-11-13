@@ -10,4 +10,8 @@ public interface ProductServiceI {
 	
 	public Product deleteProduct(Long id);
 
+	public Product updateProduct();
+	
+	public Product getProductById(Long id);
+	
 }
