@@ -1,18 +1,18 @@
 package com.donHub.donHub.service;
 
-import com.donHub.donHub.model.Product;
+import com.donHub.donHub.model.ProductRequest;
 
 public interface ProductServiceI {
 
-	public Product addProduct();
+	public ProductRequest addProduct(ProductRequest productRequest);
 	
-	public Product getProduct();
+	public ProductRequest getProducts();
 	
-	public Product deleteProduct(Long id);
+	public ProductRequest deleteProduct(Integer id);
 
 
-	public Product updateProduct();
+	public ProductRequest updateProduct();
 	
-	public Product getProductById(Long id);
+	public ProductRequest getProductById(Integer id);
 	
 }

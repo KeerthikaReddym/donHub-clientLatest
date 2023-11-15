@@ -1,7 +1,8 @@
 package com.donHub.donHub.repository;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
-import com.donHub.donHub.model.Product;
+import com.donHub.donHub.model.ProductRequest;
 
-public interface ProductRepositoryI extends CrudRepository<Product, Long>{
+public interface ProductRepositoryI extends MongoRepository<ProductRequest, Integer>{
+}

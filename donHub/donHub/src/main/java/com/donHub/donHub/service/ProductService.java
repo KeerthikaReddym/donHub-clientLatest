@@ -3,14 +3,15 @@ package com.donHub.donHub.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.donHub.donHub.model.Product;
-
-import com.donHub.donHub.repository.ProductRepositoryI;
+import com.donHub.donHub.model.ProductRequest;
+import com.donHub.donHub.repository.ProductRepository;
 
 @Service
 public class ProductService implements ProductServiceI {
-    @Autowired
-    private ProductRepositoryI productRepository;
+	
+	@Autowired
+    private ProductRepository productRepository;
+
 
     /**
      * Adds a new product to the database.
@@ -18,9 +19,9 @@ public class ProductService implements ProductServiceI {
      * @return The added product.
      */
     @Override
-    public Product addProduct() {
+    public ProductRequest addProduct(ProductRequest productRequest) {
         // Implement the logic to add a new product
-        return productRepository.save(null);
+           return productRepository.save(productRequest);
     }
 
     /**
@@ -29,7 +30,7 @@ public class ProductService implements ProductServiceI {
      * @return The list of all products.
      */
     @Override
-    public Product getProduct() {
+    public ProductRequest getProducts() {
         productRepository.findAll();
         // Implement the logic to return the list of products
         return null;
@@ -42,7 +43,7 @@ public class ProductService implements ProductServiceI {
      * @return The deleted product.
      */
     @Override
-    public Product deleteProduct(Long id) {
+    public ProductRequest deleteProduct(Integer id) {
         productRepository.delete(null);
         // Implement the logic to delete the product
         return null;
@@ -54,7 +55,7 @@ public class ProductService implements ProductServiceI {
      * @return The updated product.
      */
     @Override
-    public Product updateProduct() {
+    public ProductRequest updateProduct() {
         // Implement the logic to update a product
         return null;
     }
@@ -66,7 +67,7 @@ public class ProductService implements ProductServiceI {
      * @return The retrieved product.
      */
     @Override
-    public Product getProductById(Long id) {
+    public ProductRequest getProductById(Integer id) {
         productRepository.findById(id);
         // Implement the logic to retrieve a product by ID
         return null;
