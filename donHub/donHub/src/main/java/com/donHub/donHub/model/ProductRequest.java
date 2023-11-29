@@ -1,5 +1,6 @@
 package com.donHub.donHub.model;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -10,7 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 	    private String sellerName;
 	    private double price;
 	    private String category;
-	    private String image;
+	    private List<String> image;
 	    private String video;
 	    private String condition;
 	    private Date date;
@@ -23,7 +24,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 	    // Parameterized constructor
 	    public ProductRequest(String name, String description, String sellerName, double price,
-	                  String category, String image, String video, String condition, Date date) {
+	                  String category, List<String> image, String video, String condition, Date date) {
 	        this.name = name;
 	        this.description = description;
 	        this.sellerName = sellerName;
@@ -77,11 +78,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 	        this.category = category;
 	    }
 
-	    public String getImage() {
+	    public List<String> getImage() {
 	        return image;
 	    }
 
-	    public void setImage(String image) {
+	    public void setImage(List<String> image) {
 	        this.image = image;
 	    }
 
