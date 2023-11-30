@@ -59,6 +59,21 @@ public class UserController {
 	}
 
 	/**
+	 * Retrieves a user by their Email.
+	 *
+	 * @param Email ID of the user to retrieve
+	 * @return ResponseEntity<Object> containing the user if found, otherwise a
+	 *         message indicating no user found
+	 */
+
+	@GetMapping("/getUserByEmailId/{EmailId}")
+	public ResponseEntity<Object> getUserByEmailId(@PathVariable String EmailId) {
+		UserRequest user = userService.getUserByEmailId(EmailId);
+		return user != null ? ResponseEntity.status(HttpStatus.FOUND).body(user)
+				: ResponseEntity.status(HttpStatus.NOT_FOUND).body("No user found!");
+
+	}
+	/**
 	 * Adds user data to the database.
 	 *
 	 * @param data User object containing data to be added
@@ -89,12 +104,15 @@ public class UserController {
 	 *         otherwise a message indicating no user found to update
 	 */
 
-	@PutMapping("/updateUser/{userId}")
-	public ResponseEntity<Object> updateUser(@PathVariable String userId, @RequestBody UserRequest updateUser) {
-		Optional<UserRequest> updatedUser = Optional.of(userService.updateUser(userId, updateUser));
-		return updatedUser != null ? ResponseEntity.status(HttpStatus.OK).body(updatedUser)
-				: ResponseEntity.status(HttpStatus.NOT_FOUND).body("No player found to update!");
-	}
+	/*
+	 * @PutMapping("/updateUser/{userId}") public ResponseEntity<Object>
+	 * updateUser(@PathVariable String userId, @RequestBody UserRequest updateUser)
+	 * { Optional<UserRequest> updatedUser =
+	 * Optional.of(userService.updateUser(userId, updateUser)); return updatedUser
+	 * != null ? ResponseEntity.status(HttpStatus.OK).body(updatedUser) :
+	 * ResponseEntity.status(HttpStatus.NOT_FOUND).body("No player found to update!"
+	 * ); }
+	 */
 
 	/**
 	 * Deletes all users from the database.
@@ -120,11 +138,12 @@ public class UserController {
 	 *         successfully, otherwise a message indicating no user found for
 	 *         deletion
 	 */
-	@DeleteMapping({ "/deleteUserById/{userId}" })
-	public ResponseEntity<Object> deleteUserById(@PathVariable String userId) {
-		Boolean isDeleted = userService.deleteUserById(userId);
-		return isDeleted ? ResponseEntity.status(HttpStatus.OK).body("User deleted successfully!")
-				: ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No user found to delete!");
-	}
-
+	/*
+	 * @DeleteMapping({ "/deleteUserById/{userId}" }) public ResponseEntity<Object>
+	 * deleteUserById(@PathVariable String userId) { Boolean isDeleted =
+	 * userService.deleteUserById(userId); return isDeleted ?
+	 * ResponseEntity.status(HttpStatus.OK).body("User deleted successfully!") :
+	 * ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No user found to delete!"
+	 * ); }
+	 */
 }
