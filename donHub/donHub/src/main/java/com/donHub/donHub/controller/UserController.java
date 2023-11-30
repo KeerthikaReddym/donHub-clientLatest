@@ -16,9 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.donHub.donHub.model.User;
 import com.donHub.donHub.model.UserRequest;
-import com.donHub.donHub.service.Authentication;
 import com.donHub.donHub.service.UserServiceI;
 
 @RestController
@@ -52,10 +50,9 @@ public class UserController {
 	 *         message indicating no user found
 	 */
 
-	@GetMapping("/getUserById/{Id}")
-	
+	@GetMapping("/getUserById/{userId}")
 	public ResponseEntity<Object> getUserById(@PathVariable Long userId) {
-		Optional<UserRequest> user = Optional.empty();
+		UserRequest user = userService.getUserById(userId);
 		return user != null ? ResponseEntity.status(HttpStatus.FOUND).body(user)
 				: ResponseEntity.status(HttpStatus.NOT_FOUND).body("No user found!");
 
@@ -71,12 +68,15 @@ public class UserController {
 
 	@PostMapping()
 	public ResponseEntity<Object> addUser(@RequestBody UserRequest data) {
-		Optional<UserRequest> user = Optional.of(userService.createUser(data)); // send the user a code to his mail id and
+		UserRequest user = userService.createUser(data); // send the user a code to his mail id and
 																			// prompt him to
 		// send the code back
-
-		return user != null ? ResponseEntity.status(HttpStatus.FOUND).body(user)
-				: ResponseEntity.status(HttpStatus.NOT_FOUND).body("No user found!");
+		if(user != null && user.getEmailId()!=null&&user.getCustomId()==null)
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("you already registered please login");
+		else if(user != null && user.getEmailId()==null)
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Please use a valid purdue email id!");
+		
+		return ResponseEntity.status(HttpStatus.FOUND).body(user);
 
 	}
 
@@ -90,7 +90,7 @@ public class UserController {
 	 */
 
 	@PutMapping("/updateUser/{userId}")
-	public ResponseEntity<Object> updateUser(@PathVariable Long userId, @RequestBody User updateUser) {
+	public ResponseEntity<Object> updateUser(@PathVariable String userId, @RequestBody UserRequest updateUser) {
 		Optional<UserRequest> updatedUser = Optional.of(userService.updateUser(userId, updateUser));
 		return updatedUser != null ? ResponseEntity.status(HttpStatus.OK).body(updatedUser)
 				: ResponseEntity.status(HttpStatus.NOT_FOUND).body("No player found to update!");
@@ -121,7 +121,7 @@ public class UserController {
 	 *         deletion
 	 */
 	@DeleteMapping({ "/deleteUserById/{userId}" })
-	public ResponseEntity<Object> deleteUserById(@PathVariable Long userId) {
+	public ResponseEntity<Object> deleteUserById(@PathVariable String userId) {
 		Boolean isDeleted = userService.deleteUserById(userId);
 		return isDeleted ? ResponseEntity.status(HttpStatus.OK).body("User deleted successfully!")
 				: ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No user found to delete!");

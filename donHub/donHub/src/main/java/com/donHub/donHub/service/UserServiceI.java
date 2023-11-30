@@ -2,9 +2,7 @@
 package com.donHub.donHub.service;
 
 import java.util.List;
-import java.util.Optional;
 
-import com.donHub.donHub.model.User;
 import com.donHub.donHub.model.UserRequest;
 
 /**
@@ -13,10 +11,10 @@ import com.donHub.donHub.model.UserRequest;
   public interface UserServiceI {
 	  
 	 public List<UserRequest> getAllUsers();
-	 public Optional<UserRequest> getUserById(Long id);
+	 public UserRequest getUserById(Long id);
 	 public UserRequest createUser(UserRequest data);
-	 public UserRequest updateUser(Long id, User data);
-	 public Boolean deleteUserById(Long id);
+	 public UserRequest updateUser(String id, UserRequest data);
+	 public Boolean deleteUserById(String id);
 	   
 	  
   }

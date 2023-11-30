@@ -2,10 +2,19 @@ package com.donHub.donHub.model;
 
 import java.util.List;
 
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 @Document(collection = "User")
 public class UserRequest {
+	 @Id
+	  private ObjectId _id;
+	 @Field("Id")
+	    private Long customId;
+
+	
     private String name;
     private String emailId;
     private String password;
@@ -14,12 +23,28 @@ public class UserRequest {
     private List<String> product;
     private String profilePic;
     
-    // Default Constructor
+    public ObjectId get_id() {
+		return _id;
+	}
+
+	public void set_id(ObjectId _id) {
+		this._id = _id;
+	}
+
+	// Default Constructor
     public UserRequest() {
  
     }
     
-    // Parameterized Constructor
+    public Long getCustomId() {
+		return customId;
+	}
+
+	public void setCustomId(Long customId) {
+		this.customId = customId;
+	}
+
+	// Parameterized Constructor
     public UserRequest(String name, String emailId, String password, String phoneNo, Boolean isAdmin,
                        List<String> product, String profilePic) {
         this.name = name;
@@ -89,4 +114,5 @@ public class UserRequest {
     public void setProfilePic(String profilePic) {
         this.profilePic = profilePic;
     }
+   
 }

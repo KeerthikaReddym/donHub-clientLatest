@@ -2,6 +2,8 @@ package com.donHub.donHub.model;
 import java.util.Date;
 import java.util.List;
 
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "Product")
@@ -15,10 +17,20 @@ import org.springframework.data.mongodb.core.mapping.Document;
 	    private String video;
 	    private String condition;
 	    private Date date;
+	    @Id
+	    private ObjectId _id;
 
 	    // Constructors (you can generate these based on your needs)
 
-	    // Default constructor
+	    public ObjectId get_id() {
+			return _id;
+		}
+
+		public void set_id(ObjectId _id) {
+			this._id = _id;
+		}
+
+		// Default constructor
 	    public ProductRequest() {
 	    }
 
