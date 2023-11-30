@@ -1,6 +1,6 @@
-import { Blog } from "@/types/blog";
+import { Product } from "@/types/product";
 
-const blogData: Blog[] = [
+const productData: Product[] = [
   {
     id: 1,
     title: "Best UI components for modern websites",
@@ -44,4 +44,4 @@ const blogData: Blog[] = [
     publishDate: "2025",
   },
 ];
-export default blogData;
+export default productData;

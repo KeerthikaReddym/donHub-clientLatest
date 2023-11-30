@@ -1,16 +1,16 @@
-import SharePost from "@/components/Blog/SharePost";
-import TagButton from "@/components/Blog/TagButton";
+import SharePost from "@/components/Product/SharePost";
+import TagButton from "@/components/Product/TagButton";
 import Image from "next/image";
 
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Blog Details Page | Free Next.js Template for Startup and SaaS",
-  description: "This is Blog Details Page for Startup Nextjs Template",
+  title: "Product Details Page | DonHub",
+  description: "This is Blog Details Page for DonHub",
   // other metadata
 };
 
-const BlogDetailsPage = () => {
+const ProductDetailsPage = () => {
   return (
     <>
       <section className="pb-[120px] pt-[150px]">
@@ -344,4 +344,4 @@ const BlogDetailsPage = () => {
   );
 };
 
-export default BlogDetailsPage;
+export default ProductDetailsPage;

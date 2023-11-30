@@ -20,7 +20,7 @@ const menuData: Menu[] = [
     id: 2,
     title: "Products",
     icon: FaGrip,
-    path: "/products",
+    path: "/product",
     newTab: false,
   },
   {
