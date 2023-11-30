@@ -68,6 +68,8 @@ public class ProductRepository implements ProductRepositoryI {
 
 	@Override
 	public <S extends ProductRequest> S save(S entity) {
+		//get the seller name, email id from seller table and save that in product
+		
         return mongoTemplate.insert(entity);
 	}
 

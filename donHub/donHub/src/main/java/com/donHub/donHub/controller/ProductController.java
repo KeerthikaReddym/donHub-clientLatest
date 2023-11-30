@@ -1,5 +1,7 @@
 package com.donHub.donHub.controller;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,28 +30,35 @@ public class ProductController {
 
 		return new ResponseEntity<>(productServiceI.addProduct(productRequest), HttpStatus.OK);
 	}
-	
 	/*
-	 * @GetMapping public ResponseEntity<ProductRequest> updateProduct() {
+	 * @GetMapping public ResponseEntity<ProductRequest> updateProduct(@RequestBody
+	 * ProductRequest productRequest) {
 	 * 
-	 * return new ResponseEntity<>(productServiceI.updateProduct(), HttpStatus.OK);
-	 * }
-	 * 
-	 * @GetMapping public ResponseEntity<ProductRequest> getProductByID(Integer id)
-	 * {
-	 * 
-	 * return new ResponseEntity<>(productServiceI.getProductById(id),
+	 * return new ResponseEntity<>(productServiceI.updateProduct(productRequest),
 	 * HttpStatus.OK); }
-	 * 
-	 * @GetMapping public ResponseEntity<ProductRequest> deleteProductByID(Integer
-	 * id) {
-	 * 
-	 * return new ResponseEntity<>(productServiceI.deleteProduct(id),
-	 * HttpStatus.OK); }
-	 * 
-	 * @GetMapping public ResponseEntity<ProductRequest> getProducts(Integer id) {
-	 * 
-	 * return new ResponseEntity<>(productServiceI.getProducts(), HttpStatus.OK); }
 	 */
+	
+	 @GetMapping({"/{id}"})
+	 public ResponseEntity<Optional<ProductRequest>> getProductByID(Integer id) {
+		  
+		  return new ResponseEntity<>(productServiceI.getProductById(id), HttpStatus.OK); }
+	 
+		/*
+		 * @GetMapping({"/{name}"}) public ResponseEntity<Optional<ProductRequest>>
+		 * getProductByName(String name) {
+		 * 
+		 * return new ResponseEntity<>(productServiceI.getProductByName(name),
+		 * HttpStatus.OK); }
+		 */
+	 
+	 @GetMapping("/delete/{id}")
+	 public ResponseEntity<ProductRequest> deleteProductByID(Integer id) {
+		  
+		  return new ResponseEntity<>(productServiceI.deleteProduct(id), HttpStatus.OK); }
+	 
+	 @GetMapping()
+	 public ResponseEntity<ProductRequest> getProducts() {
+		  
+		  return new ResponseEntity<>(productServiceI.getProducts(), HttpStatus.OK); }
 
 }
