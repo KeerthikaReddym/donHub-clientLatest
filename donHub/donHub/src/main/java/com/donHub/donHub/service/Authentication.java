@@ -1,10 +1,10 @@
 package com.donHub.donHub.service;
 
-import com.donHub.donHub.model.User;
+import com.donHub.donHub.model.UserRequest;
 
 public class Authentication {
 	
-	public void authenticate(User data) {
+	public void authenticate(UserRequest data) {
 		//check if the given code is present in database;
 		return;
 	}

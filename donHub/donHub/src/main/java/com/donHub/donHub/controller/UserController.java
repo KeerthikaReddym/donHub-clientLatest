@@ -17,19 +17,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.donHub.donHub.model.User;
+import com.donHub.donHub.model.UserRequest;
 import com.donHub.donHub.service.Authentication;
 import com.donHub.donHub.service.UserServiceI;
 
 @RestController
-
 @RequestMapping("/users")
 public class UserController {
 
 	@Autowired
 	private UserServiceI userService;
 
-	@Autowired
-	private Authentication authentication;
+	
 
 	/**
 	 * Retrieves all users from the database.
@@ -40,7 +39,7 @@ public class UserController {
 
 	@GetMapping("/getAllUsers")
 	public ResponseEntity<Object> getAllUsers() {
-		List<User> users = (List<User>) userService.getAllUsers();
+		List<UserRequest> users = (List<UserRequest>) userService.getAllUsers();
 		return users != null ? ResponseEntity.status(HttpStatus.FOUND).body(users)
 				: ResponseEntity.status(HttpStatus.NOT_FOUND).body("No users found!");
 	}
@@ -53,9 +52,10 @@ public class UserController {
 	 *         message indicating no user found
 	 */
 
-	@GetMapping("/getUserById/{userId}")
+	@GetMapping("/getUserById/{Id}")
+	
 	public ResponseEntity<Object> getUserById(@PathVariable Long userId) {
-		Optional<User> user = Optional.of(userService.getUserById(userId));
+		Optional<UserRequest> user = Optional.empty();
 		return user != null ? ResponseEntity.status(HttpStatus.FOUND).body(user)
 				: ResponseEntity.status(HttpStatus.NOT_FOUND).body("No user found!");
 
@@ -70,11 +70,11 @@ public class UserController {
 	 */
 
 	@PostMapping()
-	public ResponseEntity<Object> addUser(@RequestBody User data) {
-		Optional<User> user = Optional.of(userService.createUser(data)); // send the user a code to his mail id and
+	public ResponseEntity<Object> addUser(@RequestBody UserRequest data) {
+		Optional<UserRequest> user = Optional.of(userService.createUser(data)); // send the user a code to his mail id and
 																			// prompt him to
 		// send the code back
-		authentication.authenticate(data);
+
 		return user != null ? ResponseEntity.status(HttpStatus.FOUND).body(user)
 				: ResponseEntity.status(HttpStatus.NOT_FOUND).body("No user found!");
 
@@ -91,7 +91,7 @@ public class UserController {
 
 	@PutMapping("/updateUser/{userId}")
 	public ResponseEntity<Object> updateUser(@PathVariable Long userId, @RequestBody User updateUser) {
-		Optional<User> updatedUser = Optional.of(userService.updateUser(userId, updateUser));
+		Optional<UserRequest> updatedUser = Optional.of(userService.updateUser(userId, updateUser));
 		return updatedUser != null ? ResponseEntity.status(HttpStatus.OK).body(updatedUser)
 				: ResponseEntity.status(HttpStatus.NOT_FOUND).body("No player found to update!");
 	}
