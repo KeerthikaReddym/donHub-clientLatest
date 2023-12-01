@@ -30,6 +30,9 @@ public class UserService implements UserServiceI {
 	@Override
 	public UserRequest getUserById(Long id) {
 		
+
+
+		//ObjectId objectId = new ObjectId(id);
 		UserRequest user = userRepository.findByCustomId(id);
 		return  user;
 		
@@ -58,9 +61,12 @@ public class UserService implements UserServiceI {
 
 	}
 
-	/**
-	 * 
-	 */
+	@Override
+	public UserRequest getUserByEmailId(String EmailId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	@Override
 	public UserRequest updateUser(Long id, UserRequest data) {
 		UserRequest user = userRepository.findByCustomId(id);
@@ -70,7 +76,6 @@ public class UserService implements UserServiceI {
 		return	null;	
 		
 	}
-
 	@Override
 	public Boolean deleteUserById(Long id) {
 	userRepository.deleteById(id);
@@ -89,8 +94,12 @@ public class UserService implements UserServiceI {
 		else
 			return true;
 	}
-	
-	
 
-	 
+
+	
+	/*
+	 * @Override public Boolean deleteUserById(Long id) {
+	 * userRepository.deleteById((long) id.intValue()); if(getUserById(id)==null)
+	 * return true; else return false; }
+	 */
 }
