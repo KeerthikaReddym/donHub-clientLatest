@@ -13,8 +13,9 @@ import com.donHub.donHub.model.UserRequest;
 	 public List<UserRequest> getAllUsers();
 	 public UserRequest getUserById(Long id);
 	 public UserRequest createUser(UserRequest data);
-	 public UserRequest updateUser(String id, UserRequest data);
-	 public Boolean deleteUserById(String id);
+	 public UserRequest updateUser(Long id, UserRequest data);
+	 public Boolean deleteUserById(Long id);
+	 public Boolean deleteAll();
 	   
 	  
   }

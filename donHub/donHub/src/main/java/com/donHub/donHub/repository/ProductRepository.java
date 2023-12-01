@@ -13,6 +13,7 @@ import org.springframework.data.repository.query.FluentQuery.FetchableFluentQuer
 import org.springframework.stereotype.Repository;
 
 import com.donHub.donHub.model.ProductRequest;
+import com.donHub.donHub.model.UserRequest;
 
 @Repository
 public class ProductRepository implements ProductRepositoryI {
@@ -60,11 +61,7 @@ public class ProductRepository implements ProductRepositoryI {
 		return null;
 	}
 
-	@Override
-	public List<ProductRequest> findAllById(Iterable<Integer> ids) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 	@Override
 	public <S extends ProductRequest> S save(S entity) {
@@ -73,42 +70,9 @@ public class ProductRepository implements ProductRepositoryI {
         return mongoTemplate.insert(entity);
 	}
 
-	@Override
-	public Optional<ProductRequest> findById(Integer id) {
-		// TODO Auto-generated method stub
-		return Optional.empty();
-	}
+	
 
-	@Override
-	public boolean existsById(Integer id) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public long count() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void deleteById(Integer id) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void delete(ProductRequest entity) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void deleteAllById(Iterable<? extends Integer> ids) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	
 	@Override
 	public void deleteAll(Iterable<? extends ProductRequest> entities) {
 		// TODO Auto-generated method stub
@@ -136,6 +100,7 @@ public class ProductRepository implements ProductRepositoryI {
 	@Override
 	public <S extends ProductRequest> Optional<S> findOne(Example<S> example) {
 		// TODO Auto-generated method stub
+		
 		return Optional.empty();
 	}
 
@@ -164,5 +129,63 @@ public class ProductRepository implements ProductRepositoryI {
 		return null;
 	}
 
-    // Implement custom queries or methods here if needed
+	
+
+	@Override
+	public long count() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+	@Override
+	public ProductRequest findByCustomId(Long customId) {
+		// TODO Auto-generated method stub
+		return null;
+		
+	}
+
+	@Override
+	public List<ProductRequest> findAllById(Iterable<Long> ids) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Optional<ProductRequest> findById(Long id) {
+		// TODO Auto-generated method stub
+		return Optional.empty();
+	}
+
+	@Override
+	public boolean existsById(Long id) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void deleteById(Long id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void delete(ProductRequest entity) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteAllById(Iterable<? extends Long> ids) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public ProductRequest findByEmailId(String emailId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
 }

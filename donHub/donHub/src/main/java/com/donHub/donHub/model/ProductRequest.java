@@ -5,12 +5,13 @@ import java.util.List;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 @Document(collection = "Product")
 	public class ProductRequest {
 	    private String name;
 	    private String description;
-	    private String sellerName;
+	    private String emailId;
 	    private double price;
 	    private String category;
 	    private List<String> image;
@@ -19,6 +20,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 	    private Date date;
 	    @Id
 	    private ObjectId _id;
+	    @Field("Id")
+	    private Long customId;
 
 	    // Constructors (you can generate these based on your needs)
 
@@ -34,12 +37,30 @@ import org.springframework.data.mongodb.core.mapping.Document;
 	    public ProductRequest() {
 	    }
 
-	    // Parameterized constructor
-	    public ProductRequest(String name, String description, String sellerName, double price,
+	    
+
+		public String getEmailId() {
+			return emailId;
+		}
+
+		public void setEmailId(String emailId) {
+			this.emailId = emailId;
+		}
+
+		public Long getCustomId() {
+			return customId;
+		}
+
+		public void setCustomId(Long customId) {
+			this.customId = customId;
+		}
+
+		// Parameterized constructor
+	    public ProductRequest(String name, String description, String emailId, double price,
 	                  String category, List<String> image, String video, String condition, Date date) {
 	        this.name = name;
 	        this.description = description;
-	        this.sellerName = sellerName;
+	        this.emailId = emailId;
 	        this.price = price;
 	        this.category = category;
 	        this.image = image;
@@ -66,14 +87,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 	        this.description = description;
 	    }
 
-	    public String getSellerName() {
-	        return sellerName;
-	    }
-
-	    public void setSellerName(String sellerName) {
-	        this.sellerName = sellerName;
-	    }
-
+	    
 	    public double getPrice() {
 	        return price;
 	    }

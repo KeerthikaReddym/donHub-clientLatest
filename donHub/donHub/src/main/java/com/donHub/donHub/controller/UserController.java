@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,8 +27,6 @@ public class UserController {
 	@Autowired
 	private UserServiceI userService;
 
-	
-
 	/**
 	 * Retrieves all users from the database.
 	 *
@@ -36,8 +35,8 @@ public class UserController {
 	 */
 
 	@GetMapping("/getAllUsers")
-	public ResponseEntity<Object> getAllUsers() {
-		List<UserRequest> users = (List<UserRequest>) userService.getAllUsers();
+	public ResponseEntity<?> getAllUsers() {
+		List<UserRequest> users = userService.getAllUsers();
 		return users != null ? ResponseEntity.status(HttpStatus.FOUND).body(users)
 				: ResponseEntity.status(HttpStatus.NOT_FOUND).body("No users found!");
 	}
@@ -66,17 +65,17 @@ public class UserController {
 	 *         otherwise a message indicating no user found
 	 */
 
-	@PostMapping()
+	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Object> addUser(@RequestBody UserRequest data) {
 		UserRequest user = userService.createUser(data); // send the user a code to his mail id and
-																			// prompt him to
+															// prompt him to
 		// send the code back
-		if(user != null && user.getEmailId()!=null&&user.getCustomId()==null)
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("you already registered please login");
-		else if(user != null && user.getEmailId()==null)
+		if (user != null && user.getEmailId() != null && user.getCustomId() == null)
+			return ResponseEntity.status(HttpStatus.CONFLICT).body("you already registered please login");
+		else if (user != null && user.getEmailId() == null)
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Please use a valid purdue email id!");
-		
-		return ResponseEntity.status(HttpStatus.FOUND).body(user);
+
+		return ResponseEntity.status(HttpStatus.OK).body(user);
 
 	}
 
@@ -90,10 +89,10 @@ public class UserController {
 	 */
 
 	@PutMapping("/updateUser/{userId}")
-	public ResponseEntity<Object> updateUser(@PathVariable String userId, @RequestBody UserRequest updateUser) {
-		Optional<UserRequest> updatedUser = Optional.of(userService.updateUser(userId, updateUser));
+	public ResponseEntity<?> updateUser(@PathVariable Long userId, @RequestBody UserRequest data) {
+		UserRequest updatedUser = userService.updateUser(userId, data);
 		return updatedUser != null ? ResponseEntity.status(HttpStatus.OK).body(updatedUser)
-				: ResponseEntity.status(HttpStatus.NOT_FOUND).body("No player found to update!");
+				: ResponseEntity.status(HttpStatus.NOT_FOUND).body("No user found to update!");
 	}
 
 	/**
@@ -102,26 +101,22 @@ public class UserController {
 	 * @return ResponseEntity<Object> with a success message if users are deleted
 	 *         successfully, otherwise a message indicating no users found for
 	 *         deletion
-	 *//*
-		 * 
-		 * @DeleteMapping("/deleteAllUsers") public ResponseEntity<Object>
-		 * deleteAllUsers() { Boolean areDeleted = userService.deleteAllUsers(); return
-		 * areDeleted ?
-		 * ResponseEntity.status(HttpStatus.OK).body("All users deleted successfully!")
-		 * : ResponseEntity.status(HttpStatus.BAD_REQUEST).
-		 * body("No users found to delete!"); }
-		 */
+	 */
+
+	@DeleteMapping("/deleteAll")
+	public ResponseEntity<Object> deleteAllUsers() {
+		Boolean areDeleted = userService.deleteAll();
+		return areDeleted ? ResponseEntity.status(HttpStatus.OK).body("All users deleted successfully!")
+				: ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No users found to delete!");
+	}
 
 	/**
-	 * Deletes a user by their ID.
-	 *
-	 * @param userId ID of the user to delete
-	 * @return ResponseEntity<Object> with a success message if the user is deleted
-	 *         successfully, otherwise a message indicating no user found for
-	 *         deletion
+	 * 
+	 * @param userId
+	 * @return
 	 */
-	@DeleteMapping({ "/deleteUserById/{userId}" })
-	public ResponseEntity<Object> deleteUserById(@PathVariable String userId) {
+	@DeleteMapping({ "/{userId}" })
+	public ResponseEntity<?> deleteUserById(@PathVariable Long userId) {
 		Boolean isDeleted = userService.deleteUserById(userId);
 		return isDeleted ? ResponseEntity.status(HttpStatus.OK).body("User deleted successfully!")
 				: ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No user found to delete!");

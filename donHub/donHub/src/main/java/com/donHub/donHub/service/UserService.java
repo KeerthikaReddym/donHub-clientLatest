@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.donHub.donHub.common.CommonMethods;
 import com.donHub.donHub.model.UserRequest;
 import com.donHub.donHub.model.ValidUser;
 import com.donHub.donHub.repository.UserRepositoryI;
@@ -29,9 +30,6 @@ public class UserService implements UserServiceI {
 	@Override
 	public UserRequest getUserById(Long id) {
 		
-
-
-		//ObjectId objectId = new ObjectId(id);
 		UserRequest user = userRepository.findByCustomId(id);
 		return  user;
 		
@@ -41,7 +39,8 @@ public class UserService implements UserServiceI {
 	public UserRequest createUser(UserRequest data) {
 		//check weather a user is authorized
 		UserRequest DummyuserRequest = new UserRequest();
-		data.setCustomId(generateUniqueNumber());
+		CommonMethods commonMethods = new CommonMethods();
+		data.setCustomId(commonMethods.generateUniqueNumber());
 		ValidUser valid = new ValidUser();
 		valid = validUserRepositoryI.findByEmail(data.getEmailId());
 
@@ -59,29 +58,39 @@ public class UserService implements UserServiceI {
 
 	}
 
-	@Override
-	public UserRequest updateUser(String id, UserRequest data) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Boolean deleteUserById(String id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	private Long generateUniqueNumber() {
-        // Implement your logic to generate a unique number
-        // For simplicity, combining timestamp and random number
-        long timestamp = System.currentTimeMillis();
-        long randomPart = (long) (Math.random() * 1000); // Adjust the range as needed
-
-        return timestamp * 1000 + randomPart;
-    }
-
-	/*
-	 * @Override public Boolean deleteUserById(Long id) {
-	 * userRepository.deleteById((long) id.intValue()); if(getUserById(id)==null)
-	 * return true; else return false; }
+	/**
+	 * 
 	 */
+	@Override
+	public UserRequest updateUser(Long id, UserRequest data) {
+		UserRequest user = userRepository.findByCustomId(id);
+		if(id.equals(data.getCustomId()))
+		return userRepository.save(data);
+		else
+		return	null;	
+		
+	}
+
+	@Override
+	public Boolean deleteUserById(Long id) {
+	userRepository.deleteById(id);
+	if(userRepository.existsById(id))
+		return false;
+	else 
+		return true;
+		
+	}
+
+	@Override
+	public Boolean deleteAll() {
+		userRepository.deleteAll();
+		if(userRepository.count()==0)
+		return false;
+		else
+			return true;
+	}
+	
+	
+
+	 
 }

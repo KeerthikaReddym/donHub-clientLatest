@@ -1,18 +1,20 @@
 package com.donHub.donHub.service;
 
-import java.util.Optional;
+import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.donHub.donHub.common.CommonMethods;
 import com.donHub.donHub.model.ProductRequest;
-import com.donHub.donHub.repository.ProductRepository;
+import com.donHub.donHub.repository.ProductRepositoryI;
 
 @Service
 public class ProductService implements ProductServiceI {
 
 	@Autowired
-	private ProductRepository productRepository;
+	private ProductRepositoryI productRepository;
 
 	/**
 	 * Adds a new product to the database.
@@ -21,7 +23,12 @@ public class ProductService implements ProductServiceI {
 	 */
 	@Override
 	public ProductRequest addProduct(ProductRequest productRequest) {
-		// Implement the logic to add a new product
+		// Get the current time in UTC
+		Date currentDate = new Date();
+		CommonMethods commonMethods = new CommonMethods();
+		productRequest.setCustomId(commonMethods.generateUniqueNumber());
+		// Set the date in the ProductRequest object
+		productRequest.setDate(currentDate);
 		return productRepository.save(productRequest);
 	}
 
@@ -31,10 +38,10 @@ public class ProductService implements ProductServiceI {
 	 * @return The list of all products.
 	 */
 	@Override
-	public ProductRequest getProducts() {
-		productRepository.findAll();
+	public List<ProductRequest> getProducts() {
+		
 		// Implement the logic to return the list of products
-		return null;
+		return productRepository.findAll();
 	}
 
 	/**
@@ -43,12 +50,11 @@ public class ProductService implements ProductServiceI {
 	 * @param id The ID of the product to delete.
 	 * @return The deleted product.
 	 */
-	@Override
-	public ProductRequest deleteProduct(Integer id) {
-		productRepository.delete(null);
-		// Implement the logic to delete the product
-		return null;
-	}
+	/*
+	 * @Override public ProductRequest deleteProduct(Long id) {
+	 * 
+	 * // Implement the logic to delete the product productRepository.delete(id); }
+	 */
 
 	/**
 	 * Updates a product in the database.
@@ -66,8 +72,8 @@ public class ProductService implements ProductServiceI {
 	 * @return The retrieved product.
 	 */
 	@Override
-	public Optional<ProductRequest> getProductById(Integer id) {
-		return productRepository.findById(id);
+	public ProductRequest getProductById(Long id) {
+		return productRepository.findByCustomId(id);
 
 	}
 
@@ -75,5 +81,11 @@ public class ProductService implements ProductServiceI {
 	public ProductRequest getProductByName(String name) {
 		return null;
 		
+	}
+
+	@Override
+	public ProductRequest deleteProduct(Long id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

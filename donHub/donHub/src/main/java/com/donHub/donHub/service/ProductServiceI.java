@@ -1,5 +1,6 @@
 package com.donHub.donHub.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.donHub.donHub.model.ProductRequest;
@@ -7,16 +8,13 @@ import com.donHub.donHub.model.ProductRequest;
 public interface ProductServiceI {
 
 	public ProductRequest addProduct(ProductRequest productRequest);
-	
-	public ProductRequest getProducts();
-	
-	public ProductRequest deleteProduct(Integer id);
+
+	public List<ProductRequest> getProducts();
+
+	public ProductRequest deleteProduct(Long id);
+
 	public ProductRequest getProductByName(String id);
 
-	
+	public ProductRequest getProductById(Long id);
 
-	//public ProductRequest updateProduct(ProductRequest productRequest);
-	
-	public Optional<ProductRequest> getProductById(Integer id);
-	
 }
