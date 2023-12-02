@@ -15,12 +15,9 @@ import org.springframework.data.repository.query.FluentQuery.FetchableFluentQuer
 import com.donHub.donHub.model.UserRequest;
 
 public class UserRepository implements UserRepositoryI {
-	private final MongoTemplate mongoTemplate;
+	
 
-	public UserRepository(MongoTemplate mongoTemplate) {
-		this.mongoTemplate = mongoTemplate;
-	}
-
+	
 	@Override
 	public <S extends UserRequest> S insert(S entity) {
 		// TODO Auto-generated method stub

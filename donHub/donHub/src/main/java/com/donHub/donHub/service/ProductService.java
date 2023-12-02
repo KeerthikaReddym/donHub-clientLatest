@@ -1,6 +1,5 @@
 package com.donHub.donHub.service;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +22,9 @@ public class ProductService implements ProductServiceI {
 	 */
 	@Override
 	public ProductRequest addProduct(ProductRequest productRequest) {
-		// Get the current time in UTC
-		Date currentDate = new Date();
+		// Implement the logic to add a new product
 		CommonMethods commonMethods = new CommonMethods();
 		productRequest.setCustomId(commonMethods.generateUniqueNumber());
-		// Set the date in the ProductRequest object
-		productRequest.setDate(currentDate);
 		return productRepository.save(productRequest);
 	}
 
@@ -44,17 +40,7 @@ public class ProductService implements ProductServiceI {
 		return productRepository.findAll();
 	}
 
-	/**
-	 * Deletes a product from the database based on its ID.
-	 *
-	 * @param id The ID of the product to delete.
-	 * @return The deleted product.
-	 */
-	/*
-	 * @Override public ProductRequest deleteProduct(Long id) {
-	 * 
-	 * // Implement the logic to delete the product productRepository.delete(id); }
-	 */
+	
 
 	/**
 	 * Updates a product in the database.
@@ -79,13 +65,33 @@ public class ProductService implements ProductServiceI {
 
 	@Override
 	public ProductRequest getProductByName(String name) {
-		return null;
+		return productRepository.findByName(name);
+		
+	}
+	@Override
+	public ProductRequest getProductByCondition(String condition) {
+		return productRepository.findByCondition(condition);
+		
+	}
+	@Override
+	public ProductRequest getProductByPrice(double price) {
+		return productRepository.findByPrice(price);
 		
 	}
 
 	@Override
-	public ProductRequest deleteProduct(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Boolean deleteAllProducts() {
+		productRepository.deleteAll();
+		if(productRepository.count()>0)
+			return false;
+		return true;
+	}
+
+	@Override
+	public Boolean deleteById(Long id) {
+		productRepository.deleteById(id);
+		if(productRepository.existsById(id))
+			return false;
+		return true;
 	}
 }

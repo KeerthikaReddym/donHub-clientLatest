@@ -1,5 +1,4 @@
 package com.donHub.donHub.repository;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -9,11 +8,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.repository.query.FluentQuery.FetchableFluentQuery;
 import org.springframework.stereotype.Repository;
 
 import com.donHub.donHub.model.ProductRequest;
-import com.donHub.donHub.model.UserRequest;
 
 @Repository
 public class ProductRepository implements ProductRepositoryI {
@@ -58,7 +58,7 @@ public class ProductRepository implements ProductRepositoryI {
 	@Override
 	public List<ProductRequest> findAll() {
 		// TODO Auto-generated method stub
-		return null;
+		return mongoTemplate.findAll(ProductRequest.class);
 	}
 
 	
@@ -72,16 +72,30 @@ public class ProductRepository implements ProductRepositoryI {
 
 	
 
+	@Override
+	public long count() {
+		// TODO Auto-generated method stub
+	    return mongoTemplate.count(new Query(), getClass());
+	}
+
+	
+
+	@Override
+	public void delete(ProductRequest entity) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 	@Override
 	public void deleteAll(Iterable<? extends ProductRequest> entities) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void deleteAll() {
-		// TODO Auto-generated method stub
+	    mongoTemplate.remove(new Query(), ProductRequest.class);
+
 		
 	}
 
@@ -100,7 +114,6 @@ public class ProductRepository implements ProductRepositoryI {
 	@Override
 	public <S extends ProductRequest> Optional<S> findOne(Example<S> example) {
 		// TODO Auto-generated method stub
-		
 		return Optional.empty();
 	}
 
@@ -112,7 +125,6 @@ public class ProductRepository implements ProductRepositoryI {
 
 	@Override
 	public <S extends ProductRequest> long count(Example<S> example) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
@@ -129,22 +141,6 @@ public class ProductRepository implements ProductRepositoryI {
 		return null;
 	}
 
-	
-
-	@Override
-	public long count() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-
-	@Override
-	public ProductRequest findByCustomId(Long customId) {
-		// TODO Auto-generated method stub
-		return null;
-		
-	}
-
 	@Override
 	public List<ProductRequest> findAllById(Iterable<Long> ids) {
 		// TODO Auto-generated method stub
@@ -153,28 +149,22 @@ public class ProductRepository implements ProductRepositoryI {
 
 	@Override
 	public Optional<ProductRequest> findById(Long id) {
-		// TODO Auto-generated method stub
 		return Optional.empty();
 	}
 
 	@Override
 	public boolean existsById(Long id) {
-		// TODO Auto-generated method stub
+	    Query query = new Query(Criteria.where("Id").is(id));
+		mongoTemplate.exists(query, ProductRequest.class);
 		return false;
 	}
 
 	@Override
 	public void deleteById(Long id) {
-		// TODO Auto-generated method stub
+	        Query query = new Query(Criteria.where("Id").is(id));
+	        mongoTemplate.remove(query, ProductRequest.class);
+	    }
 		
-	}
-
-	@Override
-	public void delete(ProductRequest entity) {
-		// TODO Auto-generated method stub
-		
-	}
-
 	@Override
 	public void deleteAllById(Iterable<? extends Long> ids) {
 		// TODO Auto-generated method stub
@@ -182,10 +172,28 @@ public class ProductRepository implements ProductRepositoryI {
 	}
 
 	@Override
-	public ProductRequest findByEmailId(String emailId) {
-		// TODO Auto-generated method stub
-		return null;
+	public ProductRequest findByCustomId(Long customId) {
+	    // TODO Auto-generated method stub
+
+	    Query query = new Query(Criteria.where("Id").is(customId));
+	    return mongoTemplate.findOne(query, ProductRequest.class);
 	}
 
-	
+	@Override
+	public ProductRequest findByName(String name) {
+		Query query = new Query(Criteria.where("name").is(name));
+	    return mongoTemplate.findOne(query, ProductRequest.class);
+	}
+	@Override
+	public ProductRequest findByCondition(String condition) {
+		Query query = new Query(Criteria.where("condition").is(condition));
+	    return mongoTemplate.findOne(query, ProductRequest.class);
+	}
+	@Override
+	public ProductRequest findByPrice(double price) {
+		Query query = new Query(Criteria.where("price").is(price));
+	    return mongoTemplate.findOne(query, ProductRequest.class);
+	}
+
+    // Implement custom queries or methods here if needed
 }

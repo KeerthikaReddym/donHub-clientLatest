@@ -29,9 +29,6 @@ public class UserService implements UserServiceI {
 
 	@Override
 	public UserRequest getUserById(Long id) {
-		
-
-
 		//ObjectId objectId = new ObjectId(id);
 		UserRequest user = userRepository.findByCustomId(id);
 		return  user;

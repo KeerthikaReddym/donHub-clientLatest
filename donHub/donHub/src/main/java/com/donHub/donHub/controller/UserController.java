@@ -37,7 +37,7 @@ public class UserController {
 	@GetMapping("/getAllUsers")
 	public ResponseEntity<?> getAllUsers() {
 		List<UserRequest> users = userService.getAllUsers();
-		return users != null ? ResponseEntity.status(HttpStatus.FOUND).body(users)
+		return users != null ? ResponseEntity.status(HttpStatus.OK).body(users)
 				: ResponseEntity.status(HttpStatus.NOT_FOUND).body("No users found!");
 	}
 
@@ -52,7 +52,7 @@ public class UserController {
 	@GetMapping("/getUserById/{userId}")
 	public ResponseEntity<Object> getUserById(@PathVariable Long userId) {
 		UserRequest user = userService.getUserById(userId);
-		return user != null ? ResponseEntity.status(HttpStatus.FOUND).body(user)
+		return user != null ? ResponseEntity.status(HttpStatus.OK).body(user)
 				: ResponseEntity.status(HttpStatus.NOT_FOUND).body("No user found!");
 
 	}
@@ -68,7 +68,7 @@ public class UserController {
 	@GetMapping("/getUserByEmailId/{EmailId}")
 	public ResponseEntity<Object> getUserByEmailId(@PathVariable String EmailId) {
 		UserRequest user = userService.getUserByEmailId(EmailId);
-		return user != null ? ResponseEntity.status(HttpStatus.FOUND).body(user)
+		return user != null ? ResponseEntity.status(HttpStatus.OK).body(user)
 				: ResponseEntity.status(HttpStatus.NOT_FOUND).body("No user found!");
 
 	}

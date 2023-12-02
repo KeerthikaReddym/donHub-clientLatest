@@ -16,7 +16,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 	    private String category;
 	    private List<String> image;
 	    private String video;
-	    private String condition;
+	    private Condition condition;
 	    private Date date;
 	    @Id
 	    private ObjectId _id;
@@ -47,17 +47,17 @@ import org.springframework.data.mongodb.core.mapping.Field;
 			this.emailId = emailId;
 		}
 
-		public Long getCustomId() {
-			return customId;
-		}
+		 public Long getCustomId() {
+				return customId;
+			}
 
-		public void setCustomId(Long customId) {
-			this.customId = customId;
-		}
+			public void setCustomId(Long customId) {
+				this.customId = customId;
+			}
 
 		// Parameterized constructor
 	    public ProductRequest(String name, String description, String emailId, double price,
-	                  String category, List<String> image, String video, String condition, Date date) {
+	                  String category, List<String> image, String video, Condition condition, Date date) {
 	        this.name = name;
 	        this.description = description;
 	        this.emailId = emailId;
@@ -120,11 +120,11 @@ import org.springframework.data.mongodb.core.mapping.Field;
 	        this.video = video;
 	    }
 
-	    public String getCondition() {
+	    public Condition getCondition() {
 	        return condition;
 	    }
 
-	    public void setCondition(String condition) {
+	    public void setCondition(Condition condition) {
 	        this.condition = condition;
 	    }
 
