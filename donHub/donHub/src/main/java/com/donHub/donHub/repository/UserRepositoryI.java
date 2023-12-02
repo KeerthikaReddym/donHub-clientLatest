@@ -12,7 +12,8 @@ public interface UserRepositoryI extends MongoRepository<UserRequest, Long>{
     Optional<UserRequest> findBy_id_Timestamp(Long timestamp);
     UserRequest findByCustomId(Long customId);
     UserRequest findByEmailId(String emailId);
-
+    //void updateFieldsExceptId(Long userId, UserRequest updatedUserRequest);
+    
 
 
 
