@@ -15,14 +15,11 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
-=======
->>>>>>> Stashed changes
+
+
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
->>>>>>> Stashed changes
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -73,15 +70,7 @@ public class ProductController {
         }
         productRequest.setImage(productImages);
 		
-		try {
-			Date date = dateFormat.parse(dateString);
-			productRequest.setDate(date);
-		}catch (ParseException e) {
-            // Handle parse exception, maybe return a bad request response
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-
+		
 		return new ResponseEntity<>(productServiceI.addProduct(productRequest), HttpStatus.OK);
 	}
 	

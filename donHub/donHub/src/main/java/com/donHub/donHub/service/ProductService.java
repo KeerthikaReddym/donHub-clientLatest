@@ -23,6 +23,7 @@ public class ProductService implements ProductServiceI {
 	@Override
 	public ProductRequest addProduct(ProductRequest productRequest) {
 		// Implement the logic to add a new product
+		
 		CommonMethods commonMethods = new CommonMethods();
 		productRequest.setCurrentDate();
 
