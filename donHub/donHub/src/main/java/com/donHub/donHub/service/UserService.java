@@ -41,6 +41,7 @@ public class UserService implements UserServiceI {
 		// UserRequest DummyuserRequest = new UserRequest();
 		CommonMethods commonMethods = new CommonMethods();
 		data.setCustomId(commonMethods.generateUniqueNumber());
+		data.setCurrentDate();
 		ValidUser valid = new ValidUser();
 		valid = validUserRepositoryI.findByEmail(data.getEmailId());
 

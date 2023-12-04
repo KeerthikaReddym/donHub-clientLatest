@@ -14,6 +14,7 @@ import org.springframework.data.repository.query.FluentQuery.FetchableFluentQuer
 import org.springframework.stereotype.Repository;
 
 import com.donHub.donHub.model.ProductRequest;
+import com.donHub.donHub.model.ProductResponse;
 
 @Repository
 public class ProductRepository implements ProductRepositoryI {
@@ -205,6 +206,29 @@ public class ProductRepository implements ProductRepositoryI {
 		Query query = new Query(Criteria.where("category").is(category));
 	    return mongoTemplate.findOne(query, ProductRequest.class);
 	}
+
+//	/*
+//	 * @Override public ProductRequest update(Long id, ProductRequest product) { //
+//	 * Create a query to find the product by its ID Query query = new
+//	 * Query(Criteria.where("Id").is(id));
+//	 * 
+//	 * // Create an update operation to set the new price ProductResponse
+//	 * productResponse = new ProductResponse();
+//	 * productResponse.setName(product.getName());
+//	 * productResponse.setCategory(product.getCategory());
+//	 * productResponse.setCondition(product.getCondition());
+//	 * 
+//	 * productResponse.setDescription(product.getDescription());
+//	 * productResponse.setPrice(product.getPrice());
+//	 * 
+//	 * 
+//	 * productResponse.setName(product.getName());// Perform the update operation
+//	 * return null; }
+//	 */
+
+	
+
+	
 
     // Implement custom queries or methods here if needed
 }

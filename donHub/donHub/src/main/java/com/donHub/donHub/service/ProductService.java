@@ -23,7 +23,10 @@ public class ProductService implements ProductServiceI {
 	@Override
 	public ProductRequest addProduct(ProductRequest productRequest) {
 		// Implement the logic to add a new product
+		
 		CommonMethods commonMethods = new CommonMethods();
+		productRequest.setCurrentDate();
+
 		productRequest.setCustomId(commonMethods.generateUniqueNumber());
 		return productRepository.save(productRequest);
 	}
@@ -105,5 +108,15 @@ public class ProductService implements ProductServiceI {
 		if(productRepository.existsById(id))
 			return false;
 		return true;
+	}
+
+	@Override
+	public ProductRequest updateProduct(Long id, ProductRequest productRequest) {
+		ProductRequest product =productRepository.findByCustomId(id);
+		if(product.getCustomId().equals(id)&&product.getEmailId().equals(productRequest.getEmailId())) {
+			
+			//return productRepository.update(id, productRequest);
+		}
+		return null;
 	}
 }

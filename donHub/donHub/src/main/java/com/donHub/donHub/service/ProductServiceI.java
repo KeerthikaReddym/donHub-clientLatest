@@ -10,6 +10,7 @@ public interface ProductServiceI {
 	public ProductRequest addProduct(ProductRequest productRequest);
 	
 	public List<ProductRequest> getProducts();
+	public ProductRequest updateProduct(Long id, ProductRequest productRequest);
 	
 	public Boolean deleteAllProducts();
 	public Boolean deleteById(Long id);
@@ -18,6 +19,7 @@ public interface ProductServiceI {
 	public ProductRequest getProductByPrice(double price);
 	public ProductRequest getProductByEmail(String email);
 	public ProductRequest getProductByCategory(String category);
+	
 
 	
 
