@@ -15,6 +15,14 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+=======
+>>>>>>> Stashed changes
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+>>>>>>> Stashed changes
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -112,6 +120,13 @@ public class ProductController {
 		ProductRequest product = productServiceI.getProductById(id);
 		return product != null ? ResponseEntity.status(HttpStatus.OK).body(product)
 				: ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Product found!");
+
+	}
+	@PutMapping("/{id}")
+	public ResponseEntity<?> updateProduct(@PathVariable Long id, @RequestBody ProductRequest productRequest){
+		ProductRequest product = productServiceI.updateProduct(id, productRequest);
+		return product != null ? ResponseEntity.status(HttpStatus.OK).body(product)
+				: ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Product Found!");
 
 	}
 

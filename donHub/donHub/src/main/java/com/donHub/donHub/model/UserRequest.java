@@ -1,5 +1,6 @@
 package com.donHub.donHub.model;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -23,12 +24,17 @@ public class UserRequest {
 
 	
     private String name;
+    private LocalDateTime date;
     private String emailId;
     private String password;
     private String phoneNo;
     private Boolean isAdmin;
     private List<String> product;
     private byte[] profilePic;
+    
+    public void setCurrentDate() {
+    	this.date = LocalDateTime.now();
+    }
     
       
 }
