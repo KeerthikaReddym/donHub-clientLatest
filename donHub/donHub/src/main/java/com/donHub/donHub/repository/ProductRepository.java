@@ -200,5 +200,11 @@ public class ProductRepository implements ProductRepositoryI {
 	    return mongoTemplate.findOne(query, ProductRequest.class);
 	}
 
+	@Override
+	public ProductRequest findByCategory(String category) {
+		Query query = new Query(Criteria.where("category").is(category));
+	    return mongoTemplate.findOne(query, ProductRequest.class);
+	}
+
     // Implement custom queries or methods here if needed
 }

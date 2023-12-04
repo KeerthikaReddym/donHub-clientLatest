@@ -84,6 +84,12 @@ public class ProductService implements ProductServiceI {
 		return productRepository.findByEmailId(emailId);
 		
 	}
+	@Override
+	public ProductRequest getProductByCategory(String category) {
+		return productRepository.findByCategory(category);
+		
+	}
+	
 
 	@Override
 	public Boolean deleteAllProducts() {

@@ -22,6 +22,7 @@ import lombok.NoArgsConstructor;
 	    private double price;
 	    private String category;
 	    private List<byte[]> image;
+
 	    private String video;
 	    private Condition condition;
 	    private Date date;
