@@ -80,6 +80,12 @@ public class ProductService implements ProductServiceI {
 	}
 
 	@Override
+	public ProductRequest getProductByEmail(String emailId) {
+		return productRepository.findByEmailId(emailId);
+		
+	}
+
+	@Override
 	public Boolean deleteAllProducts() {
 		productRepository.deleteAll();
 		if(productRepository.count()>0)
