@@ -1,13 +1,14 @@
 
 package com.donHub.donHub.controller;
 
+import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,13 +16,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.donHub.donHub.model.UserRequest;
 import com.donHub.donHub.service.UserServiceI;
 
 @RestController
 @RequestMapping("/users")
+@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
 
 	@Autowired
@@ -72,6 +76,16 @@ public class UserController {
 				: ResponseEntity.status(HttpStatus.NOT_FOUND).body("No user found!");
 
 	}
+
+	@GetMapping("/validateUser")
+	public ResponseEntity<Object> validateUser(@RequestParam("email") String email, @RequestParam("password") String password) {
+		UserRequest user = userService.validateUser(email, password);
+		return user != null ? ResponseEntity.status(HttpStatus.OK).body(user)
+				: ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
+	}
+
+	
+
 	/**
 	 * Adds user data to the database.
 	 *
@@ -80,15 +94,30 @@ public class UserController {
 	 *         otherwise a message indicating no user found
 	 */
 
-	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> addUser(@RequestBody UserRequest data) {
+	@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ResponseEntity<Object> addUser(@RequestParam("email") String email,
+			@RequestParam("password") String password,
+			@RequestParam(value = "phoneNumber", required = false) String phoneNumber,
+			@RequestParam(value = "profilePicture", required = false) MultipartFile profilePicture) throws IOException {
+		UserRequest data = new UserRequest();
+		data.setEmailId(email);
+		data.setPassword(password);
+		if (phoneNumber != null && !phoneNumber.isEmpty()) {
+			data.setPhoneNo(phoneNumber);
+		}
+
+		if (profilePicture != null && !profilePicture.isEmpty()) {
+			byte[] profilePicData = profilePicture.getBytes();
+			data.setProfilePic(profilePicData);
+		} // send the user a code to his mail id and
 		UserRequest user = userService.createUser(data); // send the user a code to his mail id and
 															// prompt him to
 		// send the code back
 		if (user != null && user.getEmailId() != null && user.getCustomId() == null)
-			return ResponseEntity.status(HttpStatus.CONFLICT).body("you already registered please login");
+			return ResponseEntity.status(HttpStatus.CONFLICT).body("Already registered! Sign in, please!");
 		else if (user != null && user.getEmailId() == null)
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Please use a valid purdue email id!");
+			return ResponseEntity.status(HttpStatus.NOT_FOUND)
+					.body("Invalid email id! Please use your Purdue email id!");
 
 		return ResponseEntity.status(HttpStatus.OK).body(user);
 
@@ -103,14 +132,12 @@ public class UserController {
 	 *         otherwise a message indicating no user found to update
 	 */
 
-
 	@PutMapping("/updateUser/{userId}")
 	public ResponseEntity<?> updateUser(@PathVariable Long userId, @RequestBody UserRequest data) {
 		UserRequest updatedUser = userService.updateUser(userId, data);
 		return updatedUser != null ? ResponseEntity.status(HttpStatus.OK).body(updatedUser)
 				: ResponseEntity.status(HttpStatus.NOT_FOUND).body("No user found to update!");
 	}
-
 
 	/**
 	 * Deletes all users from the database.
@@ -139,7 +166,6 @@ public class UserController {
 		return isDeleted ? ResponseEntity.status(HttpStatus.OK).body("User deleted successfully!")
 				: ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No user found to delete!");
 	}
-
 
 	/*
 	 * @DeleteMapping({ "/deleteUserById/{userId}" }) public ResponseEntity<Object>
