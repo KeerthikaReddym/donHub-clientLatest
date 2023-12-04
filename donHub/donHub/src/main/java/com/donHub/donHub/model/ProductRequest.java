@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 	    private String emailId;
 	    private double price;
 	    private String category;
-	    private List<String> image;
+	    private List<byte[]> image;
 	    private String video;
 	    private Condition condition;
 	    private Date date;
