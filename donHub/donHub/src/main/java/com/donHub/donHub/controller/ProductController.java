@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.donHub.donHub.model.Category;
 import com.donHub.donHub.model.Condition;
 import com.donHub.donHub.model.ProductRequest;
 import com.donHub.donHub.service.ProductServiceI;
@@ -48,7 +49,7 @@ public class ProductController {
 		productRequest.setName(name);
 		productRequest.setDescription(description);
 		productRequest.setPrice(price);
-		productRequest.setCategory(category);
+		productRequest.setCategory(convertStringToCategory(category));
 		productRequest.setCondition(convertStringToCondition(condition)); // Assuming Condition is an enum
 		productRequest.setEmailId(emailId);
 		
@@ -83,6 +84,16 @@ public class ProductController {
 	    } catch (IllegalArgumentException e) {
 	        // Handle the case where the formatted string does not match any enum constant
 	        throw new IllegalArgumentException("Invalid condition value: " + conditionStr);
+	    }
+	}
+	
+	private Category convertStringToCategory(String categoryStr) {
+	    String formattedCategory = categoryStr.replace(" ", "_").toUpperCase();
+	    try {
+	        return Category.valueOf(formattedCategory);
+	    } catch (IllegalArgumentException e) {
+	        // Handle the case where the formatted string does not match any enum constant
+	        throw new IllegalArgumentException("Invalid category value: " + categoryStr);
 	    }
 	}
 	

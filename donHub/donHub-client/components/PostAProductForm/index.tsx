@@ -1,44 +1,68 @@
 "use client";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { AuthContext } from "../../contexts/AuthContext";
 
 const PostAProductForm = () => {
   const router = useRouter();
-  const { user } = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [price, setPrice] = useState(0);
+  const [price, setPrice] = useState("");
   const [category, setCategory] = useState("");
   const [images, setImages] = useState([]);
   const [imageNames, setImageNames] = useState([]);
   const [condition, setCondition] = useState("");
 
+  useEffect(() => {
+    // If category is 'freebies', set price to 0
+    if (category === "freebies") {
+      setPrice("0");
+    }
+  }, [category]);
+
+  // useEffect(() => {
+  //   // Check for stored user information
+  //   const storedUser = localStorage.getItem('user'); // Replace with your key
+  //   if (storedUser) {
+  //     setUser(JSON.parse(storedUser));
+  //   } else {
+  //     router.push('/signin'); // Redirect to login if no user info is found
+  //   }
+  // }, [router, setUser]);
+
+
+  useEffect(() => {
+    if (!user) {
+      router.push("/");
+    }
+  }, [user, router]);
+
   const handleProductPictureChange = (event) => {
     const selectedImages = [...event.target.files];
     const updatedImages = [...images, ...selectedImages];
     setImages(updatedImages);
-    const updatedImagesNames = updatedImages.map(image => image.name);
+    const updatedImagesNames = updatedImages.map((image) => image.name);
     setImageNames(updatedImagesNames);
   };
 
   const handlePriceChange = (event) => {
-    setPrice(Number(event.target.value));
+    setPrice(event.target.value);
   };
-  
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-  const formData = new FormData();
-  formData.append("name", name);
-  formData.append("description", description);
-  formData.append("price", price.toString());
-  formData.append("category", category);
-  images.forEach(image => formData.append("images", image));
-  formData.append("condition", condition);
-  formData.append("emailId", user.emailId);
-  formData.append("date", new Date().toISOString());
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("description", description);
+    formData.append("price", price.toString());
+    formData.append("category", category);
+    images.forEach((image) => formData.append("images", image));
+    formData.append("condition", condition);
+    formData.append("emailId", user.emailId);
+    formData.append("date", new Date().toISOString());
 
     try {
       const response = await fetch(`http://localhost:8080/donHub/product`, {
@@ -58,8 +82,14 @@ const PostAProductForm = () => {
       console.log(responseData);
 
       if (response.status === 200) {
-        alert("Product posted successfully!")
-        //router.push("/");
+        alert("Product posted successfully!");
+        setName("");
+        setDescription("");
+        setPrice("");
+        setCategory("");
+        setImages([]);
+        setImageNames([]);
+        setCondition("");
       } else if (response.status === 409) {
         alert(responseData.message || responseData);
       } else {
@@ -69,6 +99,10 @@ const PostAProductForm = () => {
       alert("An error occurred: " + error.message);
     }
   };
+
+  if (!user) {
+    return null;
+  }
 
   return (
     <form onSubmit={handleSubmit}>
@@ -105,24 +139,6 @@ const PostAProductForm = () => {
           className="w-full rounded-sm border border-stroke bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:text-body-color-dark dark:shadow-two dark:focus:border-primary dark:focus:shadow-none"
         />
       </div>
-      
-      <div className="mb-8">
-        <label
-          htmlFor="price"
-          className="mb-3 block text-sm text-dark dark:text-white"
-        >
-          {" "}
-          Price{" "}
-        </label>
-        <input
-          type="number"
-          name="price"
-          placeholder="Enter Price"
-          value={price}
-          onChange={handlePriceChange}
-          className="w-full rounded-sm border border-stroke bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:text-body-color-dark dark:shadow-two dark:focus:border-primary dark:focus:shadow-none"
-        />
-      </div>
       <div className="mb-8">
         <label
           htmlFor="category"
@@ -137,22 +153,29 @@ const PostAProductForm = () => {
           onChange={(e) => setCategory(e.target.value)}
           className="w-full rounded-sm border border-stroke bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:text-body-color-dark dark:shadow-two dark:focus:border-primary dark:focus:shadow-none"
         >
-        <option value="">Select Category</option>
-        <option value="educationalMaterial">Educational Materials</option>
-        <option value="electronicsAndGadgets">Electronics and Gadgets</option>
-        <option value="furnitureAndHomeEssentials">Furniture and Home Essentials</option>
-        <option value="clothingAndAccessories">Clothings and Accessories</option>
-        <option value="transportation">Transportation</option>
-        <option value="musicalInstruments">Musical Instruments</option>
-        <option value="freebies">Freebies</option>
-        <option value="health">Health</option>
-        <option value="entertainment">Entertainment</option>
-        <option value="diys">DIYs</option>
-        <option value="miscellaneous">Miscellaneous</option>
+          <option value="">Select Category</option>
+          <option value="educationalMaterial">Educational Materials</option>
+          <option value="electronicsAndGadgets">Electronics and Gadgets</option>
+          <option value="furnitureAndHomeEssentials">
+            Furniture and Home Essentials
+          </option>
+          <option value="clothingAndAccessories">
+            Clothings and Accessories
+          </option>
+          <option value="transportation">Transportation</option>
+          <option value="musicalInstruments">Musical Instruments</option>
+          <option value="freebies">Freebies</option>
+          <option value="health">Health</option>
+          <option value="entertainment">Entertainment</option>
+          <option value="diys">DIYs</option>
+          <option value="miscellaneous">Miscellaneous</option>
         </select>
       </div>
       <div className="mb-8">
-        <label htmlFor="images" className="mb-3 block text-sm text-dark dark:text-white">
+        <label
+          htmlFor="images"
+          className="mb-3 block text-sm text-dark dark:text-white"
+        >
           Images
         </label>
         <input
@@ -184,12 +207,29 @@ const PostAProductForm = () => {
           onChange={(e) => setCondition(e.target.value)}
           className="w-full rounded-sm border border-stroke bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:text-body-color-dark dark:shadow-two dark:focus:border-primary dark:focus:shadow-none"
         >
-        <option value="">Select Condition</option>
-        <option value="new">New</option>
-        <option value="likenew">Like New</option>
-        <option value="fair">Fair</option>
-        <option value="good">Good</option>
+          <option value="">Select Condition</option>
+          <option value="new">New</option>
+          <option value="likenew">Like New</option>
+          <option value="fair">Fair</option>
+          <option value="good">Good</option>
         </select>
+      </div>
+      <div className="mb-8">
+        <label
+          htmlFor="price"
+          className="mb-3 block text-sm text-dark dark:text-white"
+        >
+          {" "}
+          Price{" "}
+        </label>
+        <input
+          type="number"
+          name="price"
+          placeholder="Enter Price"
+          value={price}
+          onChange={handlePriceChange}
+          className="w-full rounded-sm border border-stroke bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:text-body-color-dark dark:shadow-two dark:focus:border-primary dark:focus:shadow-none"
+        />
       </div>
       <div className="mb-6">
         <button className="flex w-full items-center justify-center rounded-sm bg-primary px-9 py-4 text-base font-medium text-white shadow-submit duration-300 hover:bg-primary/90 dark:shadow-submit-dark">
