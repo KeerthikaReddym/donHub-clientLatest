@@ -82,6 +82,13 @@ public class ProductController {
 		return product != null ? ResponseEntity.status(HttpStatus.OK).body(product)
 				: ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Product found!");
 	}
+	@GetMapping({ "getByCategory/{category}" })
+	public ResponseEntity<?> getProductByCategory(@PathVariable String category) {
+		ProductRequest product = productServiceI.getProductByCategory(category);
+
+		return product != null ? ResponseEntity.status(HttpStatus.OK).body(product)
+				: ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Product found!");
+	}
 
 	@DeleteMapping("/deleteAll")
 	public ResponseEntity<String> deleteAll() {
