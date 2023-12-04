@@ -185,6 +185,11 @@ public class ProductRepository implements ProductRepositoryI {
 	    return mongoTemplate.findOne(query, ProductRequest.class);
 	}
 	@Override
+	public ProductRequest findByEmailId(String emailId) {
+		Query query = new Query(Criteria.where("emailId").is(emailId));
+	    return mongoTemplate.findOne(query, ProductRequest.class);
+	}
+	@Override
 	public ProductRequest findByCondition(String condition) {
 		Query query = new Query(Criteria.where("condition").is(condition));
 	    return mongoTemplate.findOne(query, ProductRequest.class);

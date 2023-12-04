@@ -16,6 +16,7 @@ public interface ProductServiceI {
 	public ProductRequest getProductByName(String id);
 	public ProductRequest getProductByCondition(String condition);
 	public ProductRequest getProductByPrice(double price);
+	public ProductRequest getProductByEmail(String email);
 
 	
 

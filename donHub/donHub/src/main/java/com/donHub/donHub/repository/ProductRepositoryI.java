@@ -9,4 +9,5 @@ public interface ProductRepositoryI extends MongoRepository<ProductRequest, Long
     ProductRequest findByName(String name);
     ProductRequest findByCondition(String name);
     ProductRequest findByPrice(double price);
+    ProductRequest findByEmailId(String emailId);
 }
