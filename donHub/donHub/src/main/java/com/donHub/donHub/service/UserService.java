@@ -17,10 +17,10 @@ public class UserService implements UserServiceI {
 
 	@Autowired
 	private UserRepositoryI userRepository;
-	
+
 	@Autowired
 	private ValidUserRepositoryI validUserRepositoryI;
-
+	
 	@Override
 	public List<UserRequest> getAllUsers() {
 
@@ -29,33 +29,45 @@ public class UserService implements UserServiceI {
 
 	@Override
 	public UserRequest getUserById(Long id) {
-		//ObjectId objectId = new ObjectId(id);
+		// ObjectId objectId = new ObjectId(id);
 		UserRequest user = userRepository.findByCustomId(id);
-		return  user;
-		
+		return user;
+
 	}
 
 	@Override
 	public UserRequest createUser(UserRequest data) {
-		//check weather a user is authorized
-		UserRequest DummyuserRequest = new UserRequest();
+		// check weather a user is authorized
+		// UserRequest DummyuserRequest = new UserRequest();
 		CommonMethods commonMethods = new CommonMethods();
 		data.setCustomId(commonMethods.generateUniqueNumber());
 		ValidUser valid = new ValidUser();
 		valid = validUserRepositoryI.findByEmail(data.getEmailId());
 
-		if(valid!=null&&valid.getName()!=null)
-		{
-			
-			  if(userRepository.findByEmailId(data.getEmailId())!=null) {
-				  DummyuserRequest.setEmailId(data.getEmailId());
-				  return DummyuserRequest; }
-			 
-		return userRepository.save(data);
-		}
-		
-		return  DummyuserRequest;
+		if (valid != null && valid.getName() != null) {
 
+			if (userRepository.findByEmailId(data.getEmailId()) != null) {
+				UserRequest dummyUserRequest = new UserRequest();
+				dummyUserRequest.setEmailId(data.getEmailId());
+				return dummyUserRequest;
+			} else {
+				data.setName(valid.getName());
+				return userRepository.save(data);
+			}
+
+			
+		}else {
+			return new UserRequest();
+		}
+	}
+	
+	@Override
+	public UserRequest validateUser(String EmailId, String password) {
+		UserRequest user = userRepository.findByEmailId(EmailId);
+		if(user != null && user.getPassword().equals(password)) {
+			return user;
+		}
+		return null;
 	}
 
 	@Override
@@ -67,33 +79,34 @@ public class UserService implements UserServiceI {
 	@Override
 	public UserRequest updateUser(Long id, UserRequest data) {
 		UserRequest user = userRepository.findByCustomId(id);
-		if(id.equals(data.getCustomId()))
-		return userRepository.save(data);
+		if (id.equals(data.getCustomId()))
+			return userRepository.save(data);
 		else
-		return	null;	
-		
+			return null;
+
 	}
+
 	@Override
 	public Boolean deleteUserById(Long id) {
-	userRepository.deleteById(id);
-	if(userRepository.existsById(id))
-		return false;
-	else 
-		return true;
-		
+		userRepository.deleteById(id);
+		if (userRepository.existsById(id))
+			return false;
+		else
+			return true;
+
 	}
 
 	@Override
 	public Boolean deleteAll() {
 		userRepository.deleteAll();
-		if(userRepository.count()==0)
-		return false;
+		if (userRepository.count() == 0)
+			return false;
 		else
 			return true;
 	}
 
-
 	
+
 	/*
 	 * @Override public Boolean deleteUserById(Long id) {
 	 * userRepository.deleteById((long) id.intValue()); if(getUserById(id)==null)
