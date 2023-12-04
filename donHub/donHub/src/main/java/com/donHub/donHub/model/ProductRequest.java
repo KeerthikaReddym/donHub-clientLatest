@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 	    private String description;
 	    private String emailId;
 	    private double price;
-	    private String category;
+	    private Category category;
 	    private List<byte[]> image;
 	    private String video;
 	    private Condition condition;
