@@ -27,9 +27,14 @@ public class ProductService implements ProductServiceI {
 	@Autowired
 	private ProductRepositoryI productRepository;
 	
+<<<<<<< Updated upstream
 	@Autowired
 	private UserRepositoryI userRepository;
 
+=======
+	
+	
+>>>>>>> Stashed changes
 	private final MongoTemplate mongoTemplate;
 	 public ProductService(MongoTemplate mongoTemplate) {
 	        this.mongoTemplate = mongoTemplate;
@@ -110,8 +115,10 @@ public class ProductService implements ProductServiceI {
 
     @Cacheable(value = "productByEmailCache", key = "#emailId")
 	@Override
-	public ProductRequest getProductByEmail(String emailId) {
-		return productRepository.findByEmailId(emailId);
+	public List<ProductRequest> getProductByEmail(String emailId) {
+    	Query query = new Query(Criteria.where("emailId").is(emailId));
+        List<ProductRequest> list = mongoTemplate.find(query, ProductRequest.class);
+        return list;
 		
 	}
     
