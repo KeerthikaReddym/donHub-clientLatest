@@ -6,23 +6,23 @@ import { ProductsContext } from '@/contexts/ProductContext';
 const ProductGrid = () => {
 
   //const [products, setProducts] = useState([]);
-  const {products} = useContext(ProductsContext);
+  const {products, updateProducts} = useContext(ProductsContext);
 
-  // useEffect(() => {
-  //   const fetchProducts = async () => {
-  //     try {
-  //       const response = await fetch(`http://localhost:8080/donHub/product`); 
-  //       const data = await response.json();
-  //       console.log("fetched products",data);
-  //       setProducts(data);
-  //     } catch (error) {
-  //       console.error("Error fetching products:", error);
-  //       console.log(error.response);
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch(`http://localhost:8080/donHub/product`); 
+        const data = await response.json();
+        console.log("fetched products",data);
+        updateProducts(data);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+        console.log(error.response);
+      }
+    };
 
-  //   fetchProducts();
-  // }, []);
+    fetchProducts();
+  }, [updateProducts]);
 
 
   return (

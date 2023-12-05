@@ -1,11 +1,11 @@
 "use client";
 import React, { useState, useContext } from "react";
 import { useRouter } from "next/navigation";
-import { AuthContext } from '../../contexts/AuthContext'
+import { AuthContext } from "../../contexts/AuthContext";
 
 const SignInForm = () => {
   const router = useRouter();
-  const {signIn} = useContext(AuthContext);
+  const { signIn } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -26,10 +26,13 @@ const SignInForm = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:8080/users/validateUser?email=${email}&password=${password}`, {
-        // Replace with your actual API endpoint
-        method: "GET",
-      });
+      const response = await fetch(
+        `http://localhost:8080/users/validateUser?email=${email}&password=${password}`,
+        {
+          // Replace with your actual API endpoint
+          method: "GET",
+        },
+      );
 
       let responseData;
       const contentType = response.headers.get("content-type");
@@ -41,16 +44,19 @@ const SignInForm = () => {
 
       console.log(responseData);
 
+      setEmail("");
+      setPassword("");
+
       if (response.status === 200) {
         signIn(responseData); // Update AuthContext with user data
-        router.push('/'); // Redirect to dashboard or another page
+        router.push("/"); // Redirect to dashboard or another page
       } else if (response.status === 401) {
-        alert(responseData.message || responseData)
+        alert(responseData.message || responseData);
       } else {
         alert(responseData.message || responseData);
       }
     } catch (error) {
-      alert('An error occurred, please try again.');
+      alert("An error occurred, please try again.");
     }
   };
   return (
