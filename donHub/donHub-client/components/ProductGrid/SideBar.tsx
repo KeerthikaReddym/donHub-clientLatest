@@ -9,7 +9,7 @@ const Sidebar = () => {
   const [condition, setCondition] = useState("");
   const [myProducts, setMyProducts] = useState(false);
 
-  const { updateProducts } = useContext(ProductsContext);
+  const { setProducts } = useContext(ProductsContext);
   const { user } = useContext(AuthContext);
   const applyFilters = async () => {
     let url;
@@ -35,7 +35,7 @@ const Sidebar = () => {
       response = await fetch(url);
       data = await response.json();
       console.log("Filtered Products:", data);
-      updateProducts(data);
+      setProducts(data);
     } catch (error) {
       console.error("Error fetching products:", error);
     }

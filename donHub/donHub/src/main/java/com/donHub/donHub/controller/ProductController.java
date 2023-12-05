@@ -68,7 +68,7 @@ public class ProductController {
 
 		productRequest.setImage(productImages);
 
-		return new ResponseEntity<>(productServiceI.addProduct(productRequest), HttpStatus.OK);
+		return new ResponseEntity<ProductRequest>(productServiceI.addProduct(productRequest), HttpStatus.OK);
 	}
 
 	private Condition convertStringToCondition(String conditionStr) {
