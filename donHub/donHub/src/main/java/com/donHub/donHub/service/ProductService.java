@@ -26,17 +26,15 @@ public class ProductService implements ProductServiceI {
 
 	@Autowired
 	private ProductRepositoryI productRepository;
-	
 
 	@Autowired
 	private UserRepositoryI userRepository;
 
-
 	private final MongoTemplate mongoTemplate;
-	 public ProductService(MongoTemplate mongoTemplate) {
-	        this.mongoTemplate = mongoTemplate;
-	    }
-	
+
+	public ProductService(MongoTemplate mongoTemplate) {
+		this.mongoTemplate = mongoTemplate;
+	}
 
 	/**
 	 * Adds a new product to the database.
@@ -49,7 +47,7 @@ public class ProductService implements ProductServiceI {
 		// Implement the logic to add a new product
 		UserRequest user = userRepository.findByEmailId(productRequest.getEmailId());
 		productRequest.setUserRequest(user);
-		
+
 		CommonMethods commonMethods = new CommonMethods();
 		productRequest.setCurrentDate();
 
@@ -62,15 +60,13 @@ public class ProductService implements ProductServiceI {
 	 *
 	 * @return The list of all products.
 	 */
-	//@Cacheable(value = "productsCache")
+	// @Cacheable(value = "productsCache")
 	@Override
 	public List<ProductRequest> getProducts() {
-		
+
 		// Implement the logic to return the list of products
 		return productRepository.findAll();
 	}
-
-	
 
 	/**
 	 * Updates a product in the database.
@@ -87,66 +83,63 @@ public class ProductService implements ProductServiceI {
 	 * @param id The ID of the product to retrieve.
 	 * @return The retrieved product.
 	 */
-    @Cacheable(value = "productByIdCache", key = "#id")	
+	@Cacheable(value = "productByIdCache", key = "#id")
 	@Override
 	public ProductRequest getProductById(Long id) {
 		return productRepository.findByCustomId(id);
 
 	}
 
-    @Cacheable(value = "productByNameCache", key = "#name")	
+	@Cacheable(value = "productByNameCache", key = "#name")
 	@Override
 	public List<ProductRequest> getProductByName(String name) {
-    	Query query = new Query(Criteria.where("name").is(name));
-        List<ProductRequest> list = mongoTemplate.find(query, ProductRequest.class);
-        return list;
-		
-		
+		Query query = new Query(Criteria.where("name").is(name));
+		List<ProductRequest> list = mongoTemplate.find(query, ProductRequest.class);
+		return list;
+
 	}
-    
-    @Cacheable(value = "productByConditionCache", key = "#condition")
+
+	@Cacheable(value = "productByConditionCache", key = "#condition")
 	@Override
 	public List<ProductRequest> getProductByCondition(String condition) {
-    	Query query = new Query(Criteria.where("condition").is(condition));
-        List<ProductRequest> list = mongoTemplate.find(query, ProductRequest.class);
-        return list;
-		
-	}
-    
-   
+		Query query = new Query(Criteria.where("condition").is(condition));
+		List<ProductRequest> list = mongoTemplate.find(query, ProductRequest.class);
+		return list;
 
-    @Cacheable(value = "productByEmailCache", key = "#emailId")
+	}
+
+	@Cacheable(value = "productByEmailCache", key = "#emailId")
 	@Override
 	public List<ProductRequest> getProductByEmail(String emailId) {
-    	Query query = new Query(Criteria.where("emailId").is(emailId));
-        List<ProductRequest> list = mongoTemplate.find(query, ProductRequest.class);
-        return list;
-		
+		Query query = new Query(Criteria.where("emailId").is(emailId));
+		List<ProductRequest> list = mongoTemplate.find(query, ProductRequest.class);
+		return list;
+
 	}
-    
-    @Cacheable(value = "productByCategoryCache", key = "#category")
+
+	@Cacheable(value = "productByCategoryCache", key = "#category")
 	@Override
 	public List<ProductRequest> getProductByCategory(String category) {
-    	Query query = new Query(Criteria.where("category").is(category));
-        List<ProductRequest> list = mongoTemplate.find(query, ProductRequest.class);
-        return list;
-		
+		Query query = new Query(Criteria.where("category").is(category));
+		List<ProductRequest> list = mongoTemplate.find(query, ProductRequest.class);
+		return list;
+
 	}
-	
-    @CacheEvict(value = "productsCache", allEntries = true)
+
+	@CacheEvict(value = "productsCache", allEntries = true)
 	@Override
 	public Boolean deleteAllProducts() {
 		productRepository.deleteAll();
-		if(productRepository.count()>0)
+		if (productRepository.count() > 0)
 			return false;
 		return true;
 	}
 
-    @CacheEvict(value = "productsCache", key = "#id")
+	@CacheEvict(value = "productsCache", key = "#id")
 	@Override
 	public Boolean deleteById(Long id) {
 		productRepository.deleteById(id);
-		if(productRepository.existsById(id))
+		if (productRepository.existsById(id))
 			return false;
 		return true;
 	}
@@ -161,34 +154,34 @@ public class ProductService implements ProductServiceI {
 	 */
 
 	@CacheEvict(value = "productsCache", allEntries = true)
-    @Override
+	@Override
 	public Boolean updateProduct(Long id, ProductRequest productRequest) {
-        Query query = new Query(Criteria.where("customId").is(id));
-        Update update = new Update();
-        ProductRequest product = productRepository.findByCustomId(id);
+		Query query = new Query(Criteria.where("customId").is(id));
+		Update update = new Update();
+		ProductRequest product = productRepository.findByCustomId(id);
 
-        		
-        if(productRequest.getName()!=null&&(!productRequest.getName().equals(product.getName())))
-        update.set("name", productRequest.getName());
-        if(productRequest.getCategory()!=null&&(!productRequest.getCategory().equals(product.getCategory())))
-            update.set("getCategory", productRequest.getCategory());
-        if(productRequest.getCondition()!=null&&(!productRequest.getCondition().equals(product.getCondition())))
-            update.set("condition", productRequest.getCondition());
-        if(productRequest.getPrice()!=0&&(productRequest.getPrice()!=product.getPrice()));
-        update.set("price", productRequest.getPrice());
-        if(product.getCustomId().equals(id)&&product.getEmailId().equals(productRequest.getEmailId())) {
-            mongoTemplate.updateFirst(query, update, ProductRequest.class);
-            return true;
+		if (productRequest.getName() != null && (!productRequest.getName().equals(product.getName())))
+			update.set("name", productRequest.getName());
+		if (productRequest.getCategory() != null && (!productRequest.getCategory().equals(product.getCategory())))
+			update.set("getCategory", productRequest.getCategory());
+		if (productRequest.getCondition() != null && (!productRequest.getCondition().equals(product.getCondition())))
+			update.set("condition", productRequest.getCondition());
+		if (productRequest.getPrice() != 0 && (productRequest.getPrice() != product.getPrice()))
+			;
+		update.set("price", productRequest.getPrice());
+		if (product.getCustomId().equals(id) && product.getEmailId().equals(productRequest.getEmailId())) {
+			mongoTemplate.updateFirst(query, update, ProductRequest.class);
+			return true;
 		}
-        return false;
+		return false;
 
 	}
 
 	@Cacheable(value = "productByPriceLowCache", key = "#price")
 	@Override
 	public List<ProductRequest> getProductByPriceLow(double price) {
-        Query query = new Query(Criteria.where("price").lte(price));
-        List<ProductRequest> list = mongoTemplate.find(query, ProductRequest.class);
+		Query query = new Query(Criteria.where("price").lte(price));
+		List<ProductRequest> list = mongoTemplate.find(query, ProductRequest.class);
 
 		return list;
 	}
@@ -197,7 +190,7 @@ public class ProductService implements ProductServiceI {
 	@Override
 	public List<ProductRequest> getProductByPriceHigh(double price) {
 		Query query = new Query(Criteria.where("price").gte(price));
-        List<ProductRequest> list = mongoTemplate.find(query, ProductRequest.class);
+		List<ProductRequest> list = mongoTemplate.find(query, ProductRequest.class);
 
 		return list;
 	}
@@ -205,33 +198,65 @@ public class ProductService implements ProductServiceI {
 	@Override
 	public void updateProductWhenUserUpdated(UserRequest updatedUser) {
 		List<ProductRequest> products = productRepository.findByEmailId(updatedUser.getEmailId());
-	    for (ProductRequest product : products) {
-	    	 Query query = new Query(Criteria.where("customId").is(product.getCustomId()));
-	         Update update = new Update();
-	         update.set("user", updatedUser);
-	         mongoTemplate.updateFirst(query, update, ProductRequest.class);
-	     }
-	    }
-
+		for (ProductRequest product : products) {
+			Query query = new Query(Criteria.where("customId").is(product.getCustomId()));
+			Update update = new Update();
+			update.set("user", updatedUser);
+			mongoTemplate.updateFirst(query, update, ProductRequest.class);
+		}
+	}
 
 	@Override
 	public List<ProductRequest> getProductsByFIlters(ProductRequest request) {
-		Query query = new Query(Criteria.where("price").gte(null));
-        List<ProductRequest> list = mongoTemplate.find(query, ProductRequest.class);
+		Criteria criteria = new Criteria();
+		if (request.getCategory() != null && request.getCondition() != null && request.getPrice() > 0.0) {
+			criteria.andOperator(
+					Criteria.where("price").lte(request.getPrice()),
+					Criteria.where("category").is(request.getCategory()),
+					Criteria.where("condition").is(request.getCondition()));
+		} else if (request.getCategory() != null || request.getCondition() != null || request.getPrice() > 0.0) {
+			if (request.getCategory() != null && request.getCondition() != null && request.getPrice() > 0.0) {
+				criteria.andOperator(
+						Criteria.where("condition").is(request.getCondition()),
+						Criteria.where("category").is(request.getCategory())
+
+				);
+			}
+			if (request.getCategory() != null && request.getCondition() == null && request.getPrice() > 0.0) {
+				criteria.andOperator(
+
+						Criteria.where("category").is(request.getCategory()),
+						Criteria.where("price").lte(request.getPrice())
+
+				);
+			}
+			if (request.getCategory() == null && request.getCondition() != null && request.getPrice() > 0.0) {
+				criteria.andOperator(
+
+						Criteria.where("condition").is(request.getCondition()),
+						Criteria.where("price").lte(request.getPrice())
+
+				);
+			}
+
+		} else if (request.getCategory() == null && request.getCondition() == null && request.getPrice() > 0.0) {
+			return null;
+		}
+
+		Query query = new Query(criteria);
+		List<ProductRequest> list = mongoTemplate.find(query, ProductRequest.class);
 		return list;
 	}
-		
-		// TODO Auto-generated method stub
-		
-	}
 
-	/*
-	 * @Override public ProductRequest updateProduct(Long id, ProductRequest
-	 * productRequest) { ProductRequest product
-	 * =productRepository.findByCustomId(id);
-	 * if(product.getCustomId().equals(id)&&product.getEmailId().equals(
-	 * productRequest.getEmailId())) {
-	 * 
-	 * //return productRepository.update(id, productRequest); } return null; }
-	 */
 
+}
+
+/*
+ * @Override public ProductRequest updateProduct(Long id, ProductRequest
+ * productRequest) { ProductRequest product
+ * =productRepository.findByCustomId(id);
+ * if(product.getCustomId().equals(id)&&product.getEmailId().equals(
+ * productRequest.getEmailId())) {
+ * 
+ * //return productRepository.update(id, productRequest); } return null; }
+ */
