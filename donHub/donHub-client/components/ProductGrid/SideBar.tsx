@@ -1,6 +1,3 @@
-// components/Sidebar.tsx
-import { useState } from 'react';
-
 const Sidebar = () => {
   
   return (

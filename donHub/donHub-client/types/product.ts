@@ -1,15 +1,15 @@
-type Author = {
-  name: string;
-  image: string;
-  designation: string;
-};
-
 export type Product = {
   id: number;
-  title: string;
-  paragraph: string;
-  image: string;
-  author: Author;
-  tags: string[];
-  publishDate: string;
+  name: string;
+  description: string;
+  image: string[];
+  user: {
+    name: string;
+    emailId: string;
+    profilePic: File;
+  }
+  date: string;
+  condition: string;
+  category: string;
+  price: number;
 };

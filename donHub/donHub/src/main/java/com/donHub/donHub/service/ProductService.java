@@ -7,13 +7,18 @@ import org.springframework.stereotype.Service;
 
 import com.donHub.donHub.common.CommonMethods;
 import com.donHub.donHub.model.ProductRequest;
+import com.donHub.donHub.model.UserRequest;
 import com.donHub.donHub.repository.ProductRepositoryI;
+import com.donHub.donHub.repository.UserRepositoryI;
 
 @Service
 public class ProductService implements ProductServiceI {
 
 	@Autowired
 	private ProductRepositoryI productRepository;
+	
+	@Autowired
+	private UserRepositoryI userRepository;
 
 	/**
 	 * Adds a new product to the database.
@@ -23,6 +28,8 @@ public class ProductService implements ProductServiceI {
 	@Override
 	public ProductRequest addProduct(ProductRequest productRequest) {
 		// Implement the logic to add a new product
+		UserRequest user = userRepository.findByEmailId(productRequest.getEmailId());
+		productRequest.setUserRequest(user);
 		CommonMethods commonMethods = new CommonMethods();
 		productRequest.setCustomId(commonMethods.generateUniqueNumber());
 		return productRepository.save(productRequest);

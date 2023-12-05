@@ -182,7 +182,6 @@ public class UserRepository implements UserRepositoryI {
 	
 	@Override
 	public UserRequest findByEmailId(String emailId) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	  

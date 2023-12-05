@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +28,7 @@ import com.donHub.donHub.service.ProductServiceI;
 
 @RestController
 @RequestMapping("/donHub/product")
+@CrossOrigin(origins = "http://localhost:3000")
 public class ProductController {
 
 	@Autowired
@@ -41,7 +43,7 @@ public class ProductController {
 	@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<ProductRequest> addProduct(@RequestParam("name") String name,
 			@RequestParam("description") String description, @RequestParam("price") Double price,
-			@RequestParam("category") String category, @RequestParam("condition") String condition,
+			@RequestParam("category") Category category, @RequestParam("condition") Condition condition,
 			@RequestParam("emailId") String emailId, @RequestParam("date") String dateString,
 			@RequestParam("images") MultipartFile[] images) {
 
@@ -49,8 +51,8 @@ public class ProductController {
 		productRequest.setName(name);
 		productRequest.setDescription(description);
 		productRequest.setPrice(price);
-		productRequest.setCategory(convertStringToCategory(category));
-		productRequest.setCondition(convertStringToCondition(condition)); // Assuming Condition is an enum
+		productRequest.setCategory(category);
+		productRequest.setCondition(condition); // Assuming Condition is an enum
 		productRequest.setEmailId(emailId);
 		
 		List<byte[]> productImages = new ArrayList<>();
@@ -77,25 +79,25 @@ public class ProductController {
 		return new ResponseEntity<>(productServiceI.addProduct(productRequest), HttpStatus.OK);
 	}
 	
-	private Condition convertStringToCondition(String conditionStr) {
-	    String formattedCondition = conditionStr.replace(" ", "_").toUpperCase();
-	    try {
-	        return Condition.valueOf(formattedCondition);
-	    } catch (IllegalArgumentException e) {
-	        // Handle the case where the formatted string does not match any enum constant
-	        throw new IllegalArgumentException("Invalid condition value: " + conditionStr);
-	    }
-	}
+//	private Condition convertStringToCondition(String conditionStr) {
+//	    String formattedCondition = conditionStr.replace(" ", "_").toUpperCase();
+//	    try {
+//	        return Condition.valueOf(formattedCondition);
+//	    } catch (IllegalArgumentException e) {
+//	        // Handle the case where the formatted string does not match any enum constant
+//	        throw new IllegalArgumentException("Invalid condition value: " + conditionStr);
+//	    }
+//	}
 	
-	private Category convertStringToCategory(String categoryStr) {
-	    String formattedCategory = categoryStr.replace(" ", "_").toUpperCase();
-	    try {
-	        return Category.valueOf(formattedCategory);
-	    } catch (IllegalArgumentException e) {
-	        // Handle the case where the formatted string does not match any enum constant
-	        throw new IllegalArgumentException("Invalid category value: " + categoryStr);
-	    }
-	}
+//	private Category convertStringToCategory(String categoryStr) {
+//	    String formattedCategory = categoryStr.replace(" ", "_").toUpperCase();
+//	    try {
+//	        return Category.valueOf(formattedCategory);
+//	    } catch (IllegalArgumentException e) {
+//	        // Handle the case where the formatted string does not match any enum constant
+//	        throw new IllegalArgumentException("Invalid category value: " + categoryStr);
+//	    }
+//	}
 	
 	
 
