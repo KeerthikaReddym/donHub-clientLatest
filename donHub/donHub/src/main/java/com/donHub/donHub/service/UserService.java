@@ -103,6 +103,9 @@ public class UserService implements UserServiceI {
 		Query query = new Query(Criteria.where("customId").is(id));
 		Update update = new Update();
 		update.set("name", data.getName());
+		if(data.getProfilePic()!=null)
+			update.set("data", data.getProfilePic());
+		
 		UserRequest user = userRepository.findByCustomId(id);
 
 		// update.set("price", data.);
