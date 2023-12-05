@@ -1,20 +1,18 @@
-import React, {useContext} from 'react';
+import React, { useContext } from "react";
 import { Product } from "@/types/product";
 import Image from "next/image";
 import Link from "next/link";
 import { AuthContext } from "../../contexts/AuthContext";
 
-
 const SingleProduct = ({ product }: { product: Product }) => {
-
   const { user } = useContext(AuthContext);
   const { name, description, image, date, condition, category, price } =
     product;
-  
-    if (!user) {
-      return <div>Loading...</div>; // or any other loading state
-    }
-    
+
+  if (!user) {
+    return <div>Loading...</div>; // or any other loading state
+  }
+
   return (
     <>
       <div
@@ -39,14 +37,14 @@ const SingleProduct = ({ product }: { product: Product }) => {
           <p className="mb-6 border-b border-body-color border-opacity-10 pb-6 text-base font-medium text-body-color dark:border-white dark:border-opacity-10">
             {description}
           </p>
-          <div className="flex items-center mb-6 border-b border-body-color border-opacity-10 pb-6 text-base font-medium text-body-color dark:border-white dark:border-opacity-10">
+          <div className="mb-6 flex items-center border-b border-body-color border-opacity-10 pb-6 text-base font-medium text-body-color dark:border-white dark:border-opacity-10">
             <div className="mr-5 flex items-center border-r border-body-color border-opacity-10 pr-5 dark:border-white dark:border-opacity-10 xl:mr-3 xl:pr-3 2xl:mr-5 2xl:pr-5">
               <div className="w-full">
                 <h4 className="mb-1 text-sm font-medium text-dark dark:text-white">
                   Category
                 </h4>
                 <p className="text-xs text-body-color">
-                  {product.category.toLowerCase().split('_').join(' ')}
+                  {product.category.toLowerCase().split("_").join(" ")}
                 </p>
               </div>
             </div>
@@ -56,7 +54,7 @@ const SingleProduct = ({ product }: { product: Product }) => {
                   Condition
                 </h4>
                 <p className="text-xs text-body-color">
-                  {product.condition.toLowerCase().split('_').join(' ')}
+                  {product.condition.toLowerCase().split("_").join(" ")}
                 </p>
               </div>
             </div>
@@ -65,9 +63,7 @@ const SingleProduct = ({ product }: { product: Product }) => {
                 <h4 className="mb-1 text-sm font-medium text-dark dark:text-white">
                   Price
                 </h4>
-                <p className="text-xs text-body-color">
-                  ${product.price}
-                </p>
+                <p className="text-xs text-body-color">${product.price}</p>
               </div>
             </div>
           </div>
@@ -76,6 +72,7 @@ const SingleProduct = ({ product }: { product: Product }) => {
               <div className="mr-4">
                 <div className="relative h-10 w-10 overflow-hidden rounded-full">
                   <Image
+                    referrerPolicy="no-referrer"
                     src={`data:image/jpeg;base64,${product.user.profilePic}`}
                     alt={product.user.name}
                     fill
@@ -100,7 +97,6 @@ const SingleProduct = ({ product }: { product: Product }) => {
               </p>
             </div>
           </div>
-          
         </div>
       </div>
     </>

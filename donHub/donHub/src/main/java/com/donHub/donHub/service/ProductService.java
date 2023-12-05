@@ -22,7 +22,7 @@ import com.donHub.donHub.repository.ProductRepositoryI;
 import com.donHub.donHub.repository.UserRepositoryI;
 
 @Configuration
-@EnableCaching
+//@EnableCaching
 @Service
 public class ProductService implements ProductServiceI {
 
@@ -43,7 +43,7 @@ public class ProductService implements ProductServiceI {
 	 *
 	 * @return The added product.
 	 */
-	@CacheEvict(value = "productsCache", allEntries = true)
+	//@CacheEvict(value = "productsCache", allEntries = true)
 	@Override
 	public ProductRequest addProduct(ProductRequest productRequest) {
 		// Implement the logic to add a new product
@@ -65,7 +65,7 @@ public class ProductService implements ProductServiceI {
 	 *
 	 * @return The list of all products.
 	 */
-	@Cacheable(value = "productsCache")
+	//@Cacheable(value = "productsCache")
 	@Override
 	public List<ProductRequest> getProducts() {
 
@@ -89,14 +89,14 @@ public class ProductService implements ProductServiceI {
 	 * @param id The ID of the product to retrieve.
 	 * @return The retrieved product.
 	 */
-	@Cacheable(value = "productByIdCache", key = "#id")
+	//@Cacheable(value = "productByIdCache", key = "#id")
 	@Override
 	public ProductRequest getProductById(Long id) {
 		return productRepository.findByCustomId(id);
 
 	}
 
-	@Cacheable(value = "productByNameCache", key = "#name")
+	//@Cacheable(value = "productByNameCache", key = "#name")
 	@Override
 	public List<ProductRequest> getProductByName(String name) {
 		Query query = new Query(Criteria.where("name").is(name));
@@ -105,7 +105,7 @@ public class ProductService implements ProductServiceI {
 
 	}
 
-	@Cacheable(value = "productByConditionCache", key = "#condition")
+	//@Cacheable(value = "productByConditionCache", key = "#condition")
 	@Override
 	public List<ProductRequest> getProductByCondition(String condition) {
 		Query query = new Query(Criteria.where("condition").is(condition));
@@ -114,7 +114,7 @@ public class ProductService implements ProductServiceI {
 
 	}
 
-	@Cacheable(value = "productByEmailCache", key = "#emailId")
+	//@Cacheable(value = "productByEmailCache", key = "#emailId")
 	@Override
 	public List<ProductRequest> getProductByEmail(String emailId) {
 		Query query = new Query(Criteria.where("emailId").is(emailId));
@@ -123,7 +123,7 @@ public class ProductService implements ProductServiceI {
 
 	}
 
-	@Cacheable(value = "productByCategoryCache", key = "#category")
+	//@Cacheable(value = "productByCategoryCache", key = "#category")
 	@Override
 	public List<ProductRequest> getProductByCategory(String category) {
 		Query query = new Query(Criteria.where("category").is(category));
@@ -132,7 +132,7 @@ public class ProductService implements ProductServiceI {
 
 	}
 
-	@CacheEvict(value = "productsCache", allEntries = true)
+	//@CacheEvict(value = "productsCache", allEntries = true)
 	@Override
 	public Boolean deleteAllProducts() {
 		productRepository.deleteAll();
@@ -141,7 +141,7 @@ public class ProductService implements ProductServiceI {
 		return true;
 	}
 
-	@CacheEvict(value = "productsCache", key = "#id")
+	//@CacheEvict(value = "productsCache", key = "#id")
 	@Override
 	public Boolean deleteById(Long id) {
 		productRepository.deleteById(id);
@@ -159,7 +159,7 @@ public class ProductService implements ProductServiceI {
 	 * productRequest); } return null; }
 	 */
 
-	@CacheEvict(value = "productsCache", allEntries = true)
+	//@CacheEvict(value = "productsCache", allEntries = true)
 	@Override
 	public Boolean updateProduct(Long id, ProductRequest productRequest) {
 		Query query = new Query(Criteria.where("customId").is(id));
@@ -183,7 +183,7 @@ public class ProductService implements ProductServiceI {
 
 	}
 
-	@Cacheable(value = "productByPriceLowCache", key = "#price")
+	//@Cacheable(value = "productByPriceLowCache", key = "#price")
 	@Override
 	public List<ProductRequest> getProductByPriceLow(double price) {
 		Query query = new Query(Criteria.where("price").lte(price));
@@ -192,7 +192,7 @@ public class ProductService implements ProductServiceI {
 		return list;
 	}
 
-	@Cacheable(value = "productByPriceHighCache", key = "#price")
+	//@Cacheable(value = "productByPriceHighCache", key = "#price")
 	@Override
 	public List<ProductRequest> getProductByPriceHigh(double price) {
 		Query query = new Query(Criteria.where("price").gte(price));
