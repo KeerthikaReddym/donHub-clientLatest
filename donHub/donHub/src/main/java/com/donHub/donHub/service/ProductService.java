@@ -215,7 +215,7 @@ public class ProductService implements ProductServiceI {
 					Criteria.where("category").is(request.getCategory()),
 					Criteria.where("condition").is(request.getCondition()));
 		} else if (request.getCategory() != null || request.getCondition() != null || request.getPrice() > 0.0) {
-			if (request.getCategory() != null && request.getCondition() != null && request.getPrice() > 0.0) {
+			if (request.getCategory() != null && request.getCondition() != null && request.getPrice() == 0.0) {
 				criteria.andOperator(
 						Criteria.where("condition").is(request.getCondition()),
 						Criteria.where("category").is(request.getCategory())
