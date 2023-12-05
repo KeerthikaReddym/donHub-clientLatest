@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -15,6 +17,8 @@ import com.donHub.donHub.common.CommonMethods;
 import com.donHub.donHub.model.ProductRequest;
 import com.donHub.donHub.repository.ProductRepositoryI;
 
+@Configuration
+@EnableCaching
 @Service
 public class ProductService implements ProductServiceI {
 
@@ -95,12 +99,7 @@ public class ProductService implements ProductServiceI {
 		
 	}
     
-    @Cacheable(value = "productByPriceCache", key = "#price")
-	@Override
-	public ProductRequest getProductByPrice(double price) {
-		return productRepository.findByPrice(price);
-		
-	}
+   
 
     @Cacheable(value = "productByEmailCache", key = "#emailId")
 	@Override
@@ -158,6 +157,24 @@ public class ProductService implements ProductServiceI {
 		}
         return false;
 
+	}
+
+	@Cacheable(value = "productByPriceLowCache", key = "#price")
+	@Override
+	public List<ProductRequest> getProductByPriceLow(double price) {
+        Query query = new Query(Criteria.where("price").lte(price));
+        List<ProductRequest> list = mongoTemplate.find(query, ProductRequest.class);
+
+		return list;
+	}
+
+	@Cacheable(value = "productByPriceHighCache", key = "#price")
+	@Override
+	public List<ProductRequest> getProductByPriceHigh(double price) {
+		Query query = new Query(Criteria.where("price").gte(price));
+        List<ProductRequest> list = mongoTemplate.find(query, ProductRequest.class);
+
+		return list;
 	}
 
 	/*

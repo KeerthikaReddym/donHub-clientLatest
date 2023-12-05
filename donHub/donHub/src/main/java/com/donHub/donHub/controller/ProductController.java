@@ -40,7 +40,7 @@ public class ProductController {
 	@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<ProductRequest> addProduct(@RequestParam("name") String name,
 			@RequestParam("description") String description, @RequestParam("price") Double price,
-			@RequestParam("category") String category, @RequestParam("condition") String condition,
+			@RequestParam("category") Category category, @RequestParam("condition") Condition condition,
 			@RequestParam("emailId") String emailId,
 			@RequestParam(value = "images", required = false) MultipartFile[] images) {
 
@@ -48,8 +48,8 @@ public class ProductController {
 		productRequest.setName(name);
 		productRequest.setDescription(description);
 		productRequest.setPrice(price);
-		productRequest.setCategory(convertStringToCategory(category));
-		productRequest.setCondition(convertStringToCondition(condition)); // Assuming Condition is an enum
+		productRequest.setCategory(category);
+		productRequest.setCondition(condition); // Assuming Condition is an enum
 		productRequest.setEmailId(emailId);
 
 		List<byte[]> productImages = new ArrayList<>();
@@ -142,12 +142,21 @@ public class ProductController {
 				: ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Product found!");
 	}
 
-	@GetMapping({ "getByPrice/{price}" })
-	public ResponseEntity<?> getProductByPrice(@PathVariable double price) {
-		ProductRequest product = productServiceI.getProductByPrice(price);
+	@GetMapping({ "LowestgetByPrice/{price}" })
+	public ResponseEntity<List<ProductRequest>> getProductByPriceLow(@PathVariable double price) {
+		List<ProductRequest> product = productServiceI.getProductByPriceLow(price);
+
+		if (product != null)
+			return ResponseEntity.status(HttpStatus.OK).body(product);
+		else
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+	}
+	@GetMapping({ "HighestgetByPrice/{price}" })
+	public ResponseEntity<List<ProductRequest>> getProductByPriceHigh(@PathVariable double price) {
+		List<ProductRequest> product = productServiceI.getProductByPriceHigh(price);
 
 		return product != null ? ResponseEntity.status(HttpStatus.OK).body(product)
-				: ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Product found!");
+				: ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 	}
 
 	@GetMapping({ "getByEmail/{emailId}" })
