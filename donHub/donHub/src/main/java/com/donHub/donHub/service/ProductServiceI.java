@@ -18,7 +18,7 @@ public interface ProductServiceI {
 	public ProductRequest getProductByCondition(String condition);
 	public List<ProductRequest> getProductByPriceLow(double price);
 	public List<ProductRequest> getProductByPriceHigh(double price);
-	public ProductRequest getProductByEmail(String email);
+	public List<ProductRequest> getProductByEmail(String email);
 	public ProductRequest getProductByCategory(String category);
 	
 
