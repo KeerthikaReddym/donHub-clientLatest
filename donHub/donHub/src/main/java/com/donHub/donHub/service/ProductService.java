@@ -27,14 +27,11 @@ public class ProductService implements ProductServiceI {
 	@Autowired
 	private ProductRepositoryI productRepository;
 	
-<<<<<<< Updated upstream
+
 	@Autowired
 	private UserRepositoryI userRepository;
 
-=======
-	
-	
->>>>>>> Stashed changes
+
 	private final MongoTemplate mongoTemplate;
 	 public ProductService(MongoTemplate mongoTemplate) {
 	        this.mongoTemplate = mongoTemplate;
