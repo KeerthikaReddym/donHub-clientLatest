@@ -1,26 +1,28 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import SingleProduct from "./SingleProduct";
+import { ProductsContext } from '@/contexts/ProductContext';
 
 const ProductGrid = () => {
 
-  const [products, setProducts] = useState([]);
+  //const [products, setProducts] = useState([]);
+  const {products} = useContext(ProductsContext);
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await fetch(`http://localhost:8080/donHub/product`); 
-        const data = await response.json();
-        console.log("fetched products",data);
-        setProducts(data);
-      } catch (error) {
-        console.error("Error fetching products:", error);
-        console.log(error.response);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchProducts = async () => {
+  //     try {
+  //       const response = await fetch(`http://localhost:8080/donHub/product`); 
+  //       const data = await response.json();
+  //       console.log("fetched products",data);
+  //       setProducts(data);
+  //     } catch (error) {
+  //       console.error("Error fetching products:", error);
+  //       console.log(error.response);
+  //     }
+  //   };
 
-    fetchProducts();
-  }, []);
+  //   fetchProducts();
+  // }, []);
 
 
   return (
