@@ -97,6 +97,7 @@ public class UserService implements UserServiceI {
 		return null;
 	}
 
+	@CacheEvict(value = "allUsersCache", allEntries = true)
 	@Override
 	public Boolean updateUser(Long id, UserRequest data) {
 		Query query = new Query(Criteria.where("customId").is(id));

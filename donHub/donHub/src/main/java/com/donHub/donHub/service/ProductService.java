@@ -3,15 +3,12 @@ package com.donHub.donHub.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-<<<<<<< Updated upstream
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-=======
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
->>>>>>> Stashed changes
 import org.springframework.stereotype.Service;
 
 import com.donHub.donHub.common.CommonMethods;
@@ -145,12 +142,9 @@ public class ProductService implements ProductServiceI {
 	 * productRequest.getEmailId())) { productRepository.updateProduct(id,
 	 * productRequest); } return null; }
 	 */
-	@Override
-<<<<<<< Updated upstream
-	public ProductRequest updateProduct(Long id, ProductRequest productRequest) {
-		// TODO Auto-generated method stub
-		return null;
-=======
+
+	@CacheEvict(value = "productsCache", allEntries = true)
+    @Override
 	public Boolean updateProduct(Long id, ProductRequest productRequest) {
         Query query = new Query(Criteria.where("customId").is(id));
         Update update = new Update();
@@ -164,8 +158,6 @@ public class ProductService implements ProductServiceI {
 		}
         return false;
 
-		
->>>>>>> Stashed changes
 	}
 
 	/*
