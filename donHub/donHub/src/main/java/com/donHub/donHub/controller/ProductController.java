@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -41,14 +40,15 @@ public class ProductController {
 	 * 
 	 * @return Add data in Product table
 	 */
-	
+
 	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
 	@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<ProductRequest> addProduct(@RequestParam("name") String name,
 			@RequestParam("description") String description, @RequestParam("price") Double price,
 			@RequestParam("category") String category, @RequestParam("condition") String condition,
-			@RequestParam("emailId") String emailId, @RequestParam("date") String dateString,
-			@RequestParam("images") MultipartFile[] images) {
+			@RequestParam("emailId") String emailId,
+			@RequestParam(value = "images", required = false) MultipartFile[] images) {
 
 		ProductRequest productRequest = new ProductRequest();
 		productRequest.setName(name);
@@ -57,44 +57,41 @@ public class ProductController {
 		productRequest.setCategory(convertStringToCategory(category));
 		productRequest.setCondition(convertStringToCondition(condition)); // Assuming Condition is an enum
 		productRequest.setEmailId(emailId);
-		
+
 		List<byte[]> productImages = new ArrayList<>();
-        for (MultipartFile file : images) {
-            try {
-                productImages.add(file.getBytes());
-            } catch (IOException e) {
-                e.printStackTrace();
-                // Handle IOException, maybe return a bad request response
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
-        }
-        productRequest.setImage(productImages);
-		
-		
+		for (MultipartFile file : images) {
+			try {
+				productImages.add(file.getBytes());
+			} catch (IOException e) {
+				e.printStackTrace(); // Handle IOException, maybe return a bad request
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			}
+		}
+
+		productRequest.setImage(productImages);
+
 		return new ResponseEntity<>(productServiceI.addProduct(productRequest), HttpStatus.OK);
 	}
-	
+
 	private Condition convertStringToCondition(String conditionStr) {
-	    String formattedCondition = conditionStr.replace(" ", "_").toUpperCase();
-	    try {
-	        return Condition.valueOf(formattedCondition);
-	    } catch (IllegalArgumentException e) {
-	        // Handle the case where the formatted string does not match any enum constant
-	        throw new IllegalArgumentException("Invalid condition value: " + conditionStr);
-	    }
+		String formattedCondition = conditionStr.replace(" ", "_").toUpperCase();
+		try {
+			return Condition.valueOf(formattedCondition);
+		} catch (IllegalArgumentException e) {
+			// Handle the case where the formatted string does not match any enum constant
+			throw new IllegalArgumentException("Invalid condition value: " + conditionStr);
+		}
 	}
-	
+
 	private Category convertStringToCategory(String categoryStr) {
-	    String formattedCategory = categoryStr.replace(" ", "_").toUpperCase();
-	    try {
-	        return Category.valueOf(formattedCategory);
-	    } catch (IllegalArgumentException e) {
-	        // Handle the case where the formatted string does not match any enum constant
-	        throw new IllegalArgumentException("Invalid category value: " + categoryStr);
-	    }
+		String formattedCategory = categoryStr.replace(" ", "_").toUpperCase();
+		try {
+			return Category.valueOf(formattedCategory);
+		} catch (IllegalArgumentException e) {
+			// Handle the case where the formatted string does not match any enum constant
+			throw new IllegalArgumentException("Invalid category value: " + categoryStr);
+		}
 	}
-	
-	
 
 	/*
 	 * @GetMapping public ResponseEntity<ProductRequest> updateProduct(@RequestBody
@@ -111,8 +108,18 @@ public class ProductController {
 				: ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Product found!");
 
 	}
+	/*
+	 * @PutMapping("/{id}") public ResponseEntity<?> updateProduct(@PathVariable
+	 * Long id, @RequestBody ProductRequest productRequest){ ProductRequest product
+	 * = productServiceI.updateProduct(id, productRequest); return product != null ?
+	 * ResponseEntity.status(HttpStatus.OK).body(product) :
+	 * ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Product Found!");
+	 * 
+	 * }
+	 */
+
 	@PutMapping("/{id}")
-	public ResponseEntity<?> updateProduct(@PathVariable Long id, @RequestBody ProductRequest productRequest){
+	public ResponseEntity<?> updateProduct(@PathVariable Long id, @RequestBody ProductRequest productRequest) {
 		ProductRequest product = productServiceI.updateProduct(id, productRequest);
 		return product != null ? ResponseEntity.status(HttpStatus.OK).body(product)
 				: ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Product Found!");
@@ -156,6 +163,7 @@ public class ProductController {
 		return product != null ? ResponseEntity.status(HttpStatus.OK).body(product)
 				: ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Product found!");
 	}
+
 	@GetMapping({ "getByCategory/{category}" })
 	public ResponseEntity<?> getProductByCategory(@PathVariable String category) {
 		ProductRequest product = productServiceI.getProductByCategory(category);

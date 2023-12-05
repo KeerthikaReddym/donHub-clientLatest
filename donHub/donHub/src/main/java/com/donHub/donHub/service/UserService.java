@@ -4,6 +4,8 @@ package com.donHub.donHub.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.donHub.donHub.common.CommonMethods;
@@ -21,12 +23,14 @@ public class UserService implements UserServiceI {
 	@Autowired
 	private ValidUserRepositoryI validUserRepositoryI;
 	
+	@Cacheable(value = "allUsersCache")
 	@Override
 	public List<UserRequest> getAllUsers() {
 
 		return userRepository.findAll();
 	}
 
+	@Cacheable(value = "userByIdCache", key = "#id")
 	@Override
 	public UserRequest getUserById(Long id) {
 		// ObjectId objectId = new ObjectId(id);
@@ -35,6 +39,7 @@ public class UserService implements UserServiceI {
 
 	}
 
+	@CacheEvict(value = "allUsersCache", allEntries = true)
 	@Override
 	public UserRequest createUser(UserRequest data) {
 		// check weather a user is authorized
@@ -71,6 +76,7 @@ public class UserService implements UserServiceI {
 		return null;
 	}
 
+	
 	@Override
 	public UserRequest getUserByEmailId(String EmailId) {
 		// TODO Auto-generated method stub
@@ -87,6 +93,7 @@ public class UserService implements UserServiceI {
 
 	}
 
+	@CacheEvict(value = {"userByIdCache", "allUsersCache"}, key = "#id")
 	@Override
 	public Boolean deleteUserById(Long id) {
 		userRepository.deleteById(id);
@@ -97,6 +104,7 @@ public class UserService implements UserServiceI {
 
 	}
 
+	@CacheEvict(value = "allUsersCache", allEntries = true)
 	@Override
 	public Boolean deleteAll() {
 		userRepository.deleteAll();
