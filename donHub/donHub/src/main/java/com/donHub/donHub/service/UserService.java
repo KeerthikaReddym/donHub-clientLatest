@@ -11,6 +11,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.donHub.donHub.common.CommonMethods;
 import com.donHub.donHub.model.UserRequest;
@@ -128,6 +129,12 @@ public class UserService implements UserServiceI {
 			return false;
 		else
 			return true;
+	}
+
+	@Override
+	public UserRequest updateUserDetails(Long userId, String name, MultipartFile profilePicture) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	/*

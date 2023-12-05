@@ -20,7 +20,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.donHub.donHub.model.ProductRequest;
 import com.donHub.donHub.model.UserRequest;
+import com.donHub.donHub.service.ProductService;
+import com.donHub.donHub.service.ProductServiceI;
 import com.donHub.donHub.service.UserServiceI;
 
 @RestController
@@ -30,6 +33,9 @@ public class UserController {
 
 	@Autowired
 	private UserServiceI userService;
+	
+	@Autowired
+	private ProductServiceI productService;
 
 	/**
 	 * Retrieves all users from the database.
@@ -149,8 +155,12 @@ public class UserController {
 		}
 		//System.out.println(existingUser);
 		Boolean updateResult = userService.updateUser(userId, existingUser);
+		//getting all products
+		
 		if (updateResult) {
-	        UserRequest updatedUser = userService.getUserById(userId); // Fetch the updated user
+	        UserRequest updatedUser = userService.getUserById(userId);
+	        productService.updateProductWhenUserUpdated(updatedUser);
+	       
 	        return ResponseEntity.status(HttpStatus.OK).body(updatedUser);
 	    } else {
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Update failed!");

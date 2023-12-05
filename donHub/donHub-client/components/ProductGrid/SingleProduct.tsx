@@ -1,11 +1,20 @@
+import React, {useContext} from 'react';
 import { Product } from "@/types/product";
 import Image from "next/image";
 import Link from "next/link";
+import { AuthContext } from "../../contexts/AuthContext";
+
 
 const SingleProduct = ({ product }: { product: Product }) => {
+
+  const { user } = useContext(AuthContext);
   const { name, description, image, date, condition, category, price } =
     product;
-
+  
+    if (!user) {
+      return <div>Loading...</div>; // or any other loading state
+    }
+    
   return (
     <>
       <div
