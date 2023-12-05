@@ -87,7 +87,7 @@ public class ProductRepository implements ProductRepositoryI {
 	@Override
 	public long count() {
 		// TODO Auto-generated method stub
-	    return mongoTemplate.count(new Query(), getClass());
+	    return mongoTemplate.count(new Query(), ProductRequest.class);
 	}
 
 	

@@ -189,7 +189,7 @@ public class ProductController {
 	
 	 	 @DeleteMapping() 
 	 	 public ResponseEntity<String> deleteAll() {
-	  return productServiceI.deleteAllProducts() == true ?
+	  return productServiceI.deleteAllProducts() ?
 	  ResponseEntity.status(HttpStatus.OK).body("successfully deleted everything")
 	  : ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Product found!"); }
 	 

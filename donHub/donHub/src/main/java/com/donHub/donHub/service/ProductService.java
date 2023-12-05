@@ -135,7 +135,7 @@ public class ProductService implements ProductServiceI {
 	@Override
 	public Boolean deleteAllProducts() {
 		productRepository.deleteAll();
-		if (productRepository.count() > 0)
+		if(productRepository.count() > 0)
 			return false;
 		return true;
 	}
