@@ -15,7 +15,9 @@ import org.springframework.stereotype.Service;
 
 import com.donHub.donHub.common.CommonMethods;
 import com.donHub.donHub.model.ProductRequest;
+import com.donHub.donHub.model.UserRequest;
 import com.donHub.donHub.repository.ProductRepositoryI;
+import com.donHub.donHub.repository.UserRepositoryI;
 
 @Configuration
 @EnableCaching
@@ -25,6 +27,9 @@ public class ProductService implements ProductServiceI {
 	@Autowired
 	private ProductRepositoryI productRepository;
 	
+	@Autowired
+	private UserRepositoryI userRepository;
+
 	private final MongoTemplate mongoTemplate;
 	 public ProductService(MongoTemplate mongoTemplate) {
 	        this.mongoTemplate = mongoTemplate;
@@ -40,6 +45,8 @@ public class ProductService implements ProductServiceI {
 	@Override
 	public ProductRequest addProduct(ProductRequest productRequest) {
 		// Implement the logic to add a new product
+		UserRequest user = userRepository.findByEmailId(productRequest.getEmailId());
+		productRequest.setUserRequest(user);
 		
 		CommonMethods commonMethods = new CommonMethods();
 		productRequest.setCurrentDate();

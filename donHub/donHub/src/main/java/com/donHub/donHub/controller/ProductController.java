@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +28,7 @@ import com.donHub.donHub.service.ProductServiceI;
 
 @RestController
 @RequestMapping("/donHub/product")
+@CrossOrigin(origins = "http://localhost:3000")
 public class ProductController {
 
 	@Autowired
@@ -41,8 +43,10 @@ public class ProductController {
 	public ResponseEntity<ProductRequest> addProduct(@RequestParam("name") String name,
 			@RequestParam("description") String description, @RequestParam("price") Double price,
 			@RequestParam("category") Category category, @RequestParam("condition") Condition condition,
-			@RequestParam("emailId") String emailId,
-			@RequestParam(value = "images", required = false) MultipartFile[] images) {
+
+			@RequestParam("emailId") String emailId, @RequestParam("date") String dateString,
+			@RequestParam("images") MultipartFile[] images) {
+
 
 		ProductRequest productRequest = new ProductRequest();
 		productRequest.setName(name);

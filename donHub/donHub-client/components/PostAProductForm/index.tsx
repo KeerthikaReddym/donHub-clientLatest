@@ -22,17 +22,6 @@ const PostAProductForm = () => {
     }
   }, [category]);
 
-  // useEffect(() => {
-  //   // Check for stored user information
-  //   const storedUser = localStorage.getItem('user'); // Replace with your key
-  //   if (storedUser) {
-  //     setUser(JSON.parse(storedUser));
-  //   } else {
-  //     router.push('/signin'); // Redirect to login if no user info is found
-  //   }
-  // }, [router, setUser]);
-
-
   useEffect(() => {
     if (!user) {
       router.push("/");
@@ -154,21 +143,21 @@ const PostAProductForm = () => {
           className="w-full rounded-sm border border-stroke bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:text-body-color-dark dark:shadow-two dark:focus:border-primary dark:focus:shadow-none"
         >
           <option value="">Select Category</option>
-          <option value="educationalMaterial">Educational Materials</option>
-          <option value="electronicsAndGadgets">Electronics and Gadgets</option>
-          <option value="furnitureAndHomeEssentials">
+          <option value="EDUCATIONAL_MATERIALS">Educational Materials</option>
+          <option value="ELECTRONICS_AND_GADGETS">Electronics and Gadgets</option>
+          <option value="FURNITURE_AND_HOME_ESSENTIALS">
             Furniture and Home Essentials
           </option>
-          <option value="clothingAndAccessories">
+          <option value="CLOTHINGS_AND_ACCESSORIES">
             Clothings and Accessories
           </option>
-          <option value="transportation">Transportation</option>
-          <option value="musicalInstruments">Musical Instruments</option>
-          <option value="freebies">Freebies</option>
-          <option value="health">Health</option>
-          <option value="entertainment">Entertainment</option>
-          <option value="diys">DIYs</option>
-          <option value="miscellaneous">Miscellaneous</option>
+          <option value="TRANSPORTATION">Transportation</option>
+          <option value="MUSICAL_INSTRUMENTS">Musical Instruments</option>
+          <option value="FREEBIES">Freebies</option>
+          <option value="HEALTH">Health</option>
+          <option value="ENTERTAINMENT">Entertainment</option>
+          <option value="DIYS">DIYs</option>
+          <option value="MISCELLANEOUS">Miscellaneous</option>
         </select>
       </div>
       <div className="mb-8">
@@ -208,10 +197,10 @@ const PostAProductForm = () => {
           className="w-full rounded-sm border border-stroke bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:text-body-color-dark dark:shadow-two dark:focus:border-primary dark:focus:shadow-none"
         >
           <option value="">Select Condition</option>
-          <option value="new">New</option>
-          <option value="likenew">Like New</option>
-          <option value="fair">Fair</option>
-          <option value="good">Good</option>
+          <option value="NEW">New</option>
+          <option value="LIKE_NEW">Like New</option>
+          <option value="FAIR">Fair</option>
+          <option value="GOOD">Good</option>
         </select>
       </div>
       <div className="mb-8">

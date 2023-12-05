@@ -1,8 +1,9 @@
-import SingleProduct from "@/components/Product/SingleProduct";
-import productData from "@/components/Product/productData";
-import Breadcrumb from "@/components/Common/Breadcrumb";
-import Sidebar from "@/components/Product/SideBar";
 
+import ProductGrid from "@/components/ProductGrid";
+import Breadcrumb from "@/components/Common/Breadcrumb";
+import Sidebar from "@/components/ProductGrid/SideBar";
+
+import React from "react";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -24,14 +25,7 @@ const Product = () => {
           <section className="pb-[120px] pt-[0px]">
             <div className="container">
               <div className="-mx-4 flex flex-wrap justify-center">
-                {productData.map((product) => (
-                  <div
-                    key={product.id}
-                    className="w-full px-4 md:w-2/3 lg:w-1/2 xl:w-1/3"
-                  >
-                    <SingleProduct product={product} />
-                  </div>
-                ))}
+                <ProductGrid/>
               </div>
 
               <div
