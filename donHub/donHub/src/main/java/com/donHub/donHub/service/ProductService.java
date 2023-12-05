@@ -49,14 +49,14 @@ public class ProductService implements ProductServiceI {
 		// Implement the logic to add a new product
 		
 		UserRequest user = userRepository.findByEmailId(productRequest.getEmailId());
-		//productRequest.setUserRequest(user);
+		productRequest.setUserRequest(user);
 
 		CommonMethods commonMethods = new CommonMethods();
 		productRequest.setCurrentDate();
 
 		productRequest.setCustomId(commonMethods.generateUniqueNumber());
 		ProductRequest product = productRepository.save(productRequest);
-		product.setUser(user);
+		
 		return product;
 	}
 
@@ -70,6 +70,7 @@ public class ProductService implements ProductServiceI {
 	public List<ProductRequest> getProducts() {
 
 		// Implement the logic to return the list of products
+		
 		return productRepository.findAll();
 	}
 
