@@ -9,7 +9,7 @@ const Dropdown = () => {
 
   return (
     <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white">
-      <Link href="/profile/edit" className="block px-2 py-1 text-sm text-gray-700 hover:bg-primary hover:rounded-t-md">Change Profile Pic
+      <Link href="/edit-profile" className="block px-2 py-1 text-sm text-gray-700 hover:bg-primary hover:rounded-t-md">Edit Profile
       </Link>
       <Link href="/post-a-product" className="block px-2 py-1 text-sm text-gray-700 hover:bg-primary">Post a Product
       </Link>

@@ -17,6 +17,7 @@ import com.donHub.donHub.model.UserRequest;
 import com.donHub.donHub.model.ValidUser;
 import com.donHub.donHub.repository.UserRepositoryI;
 import com.donHub.donHub.repository.ValidUserRepositoryI;
+import com.mongodb.client.result.UpdateResult;
 
 @Service
 public class UserService implements UserServiceI {
@@ -27,10 +28,6 @@ public class UserService implements UserServiceI {
 	@Autowired
 	private ValidUserRepositoryI validUserRepositoryI;
 
-	
-	
-
-
 	private final MongoTemplate mongoTemplate;
 
 	@Cacheable(value = "allUsersCache")
@@ -40,7 +37,6 @@ public class UserService implements UserServiceI {
 		return userRepository.findAll();
 	}
 
-	
 	public UserService(MongoTemplate mongoTemplate) {
 		this.mongoTemplate = mongoTemplate;
 	}
@@ -90,7 +86,6 @@ public class UserService implements UserServiceI {
 		return null;
 	}
 
-	
 	@Override
 	public UserRequest getUserByEmailId(String EmailId) {
 		// TODO Auto-generated method stub
@@ -102,23 +97,19 @@ public class UserService implements UserServiceI {
 	public Boolean updateUser(Long id, UserRequest data) {
 		Query query = new Query(Criteria.where("customId").is(id));
 		Update update = new Update();
-		update.set("name", data.getName());
-		if(data.getProfilePic()!=null)
-			update.set("data", data.getProfilePic());
-		
-		UserRequest user = userRepository.findByCustomId(id);
 
-		// update.set("price", data.);
-		if (id.equals(user.getCustomId())) {
-			mongoTemplate.updateFirst(query, update, UserRequest.class);
-			return true;
+		if (data.getName() != null) {
+		    update.set("name", data.getName());
 		}
-
-		return false;
-
+		if (data.getProfilePic() != null) {
+			update.set("profilePic", data.getProfilePic());
+		}
+		
+		UpdateResult result = mongoTemplate.updateFirst(query, update, UserRequest.class);
+		return result.getModifiedCount() > 0;
 	}
 
-	@CacheEvict(value = {"userByIdCache", "allUsersCache"}, key = "#id")
+	@CacheEvict(value = { "userByIdCache", "allUsersCache" }, key = "#id")
 	@Override
 	public Boolean deleteUserById(Long id) {
 		userRepository.deleteById(id);
