@@ -47,14 +47,17 @@ public class ProductService implements ProductServiceI {
 	@Override
 	public ProductRequest addProduct(ProductRequest productRequest) {
 		// Implement the logic to add a new product
+		
 		UserRequest user = userRepository.findByEmailId(productRequest.getEmailId());
-		productRequest.setUserRequest(user);
+		//productRequest.setUserRequest(user);
 
 		CommonMethods commonMethods = new CommonMethods();
 		productRequest.setCurrentDate();
 
 		productRequest.setCustomId(commonMethods.generateUniqueNumber());
-		return productRepository.save(productRequest);
+		ProductRequest product = productRepository.save(productRequest);
+		product.setUser(user);
+		return product;
 	}
 
 	/**
