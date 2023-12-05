@@ -78,13 +78,12 @@ public class UserController {
 	}
 
 	@GetMapping("/validateUser")
-	public ResponseEntity<Object> validateUser(@RequestParam("email") String email, @RequestParam("password") String password) {
+	public ResponseEntity<Object> validateUser(@RequestParam("email") String email,
+			@RequestParam("password") String password) {
 		UserRequest user = userService.validateUser(email, password);
 		return user != null ? ResponseEntity.status(HttpStatus.OK).body(user)
 				: ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
 	}
-
-	
 
 	/**
 	 * Adds user data to the database.
@@ -132,13 +131,32 @@ public class UserController {
 	 *         otherwise a message indicating no user found to update
 	 */
 
-	@PutMapping("/updateUser/{userId}")
-	public ResponseEntity<String> updateUser(@PathVariable Long userId, @RequestBody UserRequest data) {
-		Boolean updatedUser = userService.updateUser(userId, data);
-		return updatedUser ? ResponseEntity.status(HttpStatus.OK).body("successfully updated")
-				: ResponseEntity.status(HttpStatus.NOT_FOUND).body("No user found to update!");
+	@PutMapping(path="/updateUser/{userId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ResponseEntity<Object> updateUser(@PathVariable Long userId,
+			@RequestParam(value = "name", required = false) String name,
+			@RequestParam(value = "profilePic", required = false) MultipartFile profilePicture) throws IOException {
+		//System.out.println("Update request received for user ID: " + userId);
+		UserRequest existingUser = userService.getUserById(userId);
+		if (existingUser == null) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No user found to update!");
+		}
+		if (name != null && !name.isEmpty()) {
+			existingUser.setName(name);
+		}
+		if (profilePicture != null && !profilePicture.isEmpty()) {
+			byte[] profilePicData = profilePicture.getBytes();
+			existingUser.setProfilePic(profilePicData);
+		}
+		//System.out.println(existingUser);
+		Boolean updateResult = userService.updateUser(userId, existingUser);
+		if (updateResult) {
+	        UserRequest updatedUser = userService.getUserById(userId); // Fetch the updated user
+	        return ResponseEntity.status(HttpStatus.OK).body(updatedUser);
+	    } else {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Update failed!");
+	    }
+				
 	}
-
 	/**
 	 * Deletes all users from the database.
 	 *
