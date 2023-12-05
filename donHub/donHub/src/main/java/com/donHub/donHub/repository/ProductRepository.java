@@ -197,9 +197,9 @@ public class ProductRepository implements ProductRepositoryI {
 	    return mongoTemplate.findOne(query, ProductRequest.class);
 	}
 	@Override
-	public ProductRequest findByEmailId(String emailId) {
+	public List<ProductRequest> findByEmailId(String emailId) {
 		Query query = new Query(Criteria.where("emailId").is(emailId));
-	    return mongoTemplate.findOne(query, ProductRequest.class);
+	    return mongoTemplate.find(query, ProductRequest.class);
 	}
 	@Override
 	public ProductRequest findByCondition(String condition) {
@@ -217,6 +217,7 @@ public class ProductRepository implements ProductRepositoryI {
 		Query query = new Query(Criteria.where("category").is(category));
 	    return mongoTemplate.findOne(query, ProductRequest.class);
 	}
+
 
 //	/*
 //	 * @Override public ProductRequest update(Long id, ProductRequest product) { //

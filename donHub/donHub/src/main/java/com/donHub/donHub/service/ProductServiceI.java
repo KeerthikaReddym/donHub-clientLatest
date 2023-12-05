@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.donHub.donHub.model.ProductRequest;
+import com.donHub.donHub.model.UserRequest;
 
 public interface ProductServiceI {
 
@@ -27,5 +28,7 @@ public interface ProductServiceI {
 	//public ProductRequest updateProduct(ProductRequest productRequest);
 	
 	public ProductRequest getProductById(Long id);
+
+	void updateProductWhenUserUpdated(UserRequest updatedUser);
 	
 }

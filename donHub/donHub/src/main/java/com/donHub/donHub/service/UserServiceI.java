@@ -2,6 +2,9 @@
 package com.donHub.donHub.service;
 
 import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
+
 import com.donHub.donHub.model.UserRequest;
 
 /**
@@ -18,6 +21,7 @@ import com.donHub.donHub.model.UserRequest;
 	 public Boolean deleteUserById(Long id);
 
 	 public Boolean deleteAll();
+	public UserRequest updateUserDetails(Long userId, String name, MultipartFile profilePicture);
 
 	   
 	  

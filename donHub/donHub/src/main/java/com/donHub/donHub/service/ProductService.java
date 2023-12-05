@@ -62,7 +62,7 @@ public class ProductService implements ProductServiceI {
 	 *
 	 * @return The list of all products.
 	 */
-	@Cacheable(value = "productsCache")
+	//@Cacheable(value = "productsCache")
 	@Override
 	public List<ProductRequest> getProducts() {
 		
@@ -188,6 +188,21 @@ public class ProductService implements ProductServiceI {
 		return list;
 	}
 
+	@Override
+	public void updateProductWhenUserUpdated(UserRequest updatedUser) {
+		List<ProductRequest> products = productRepository.findByEmailId(updatedUser.getEmailId());
+	    for (ProductRequest product : products) {
+	    	 Query query = new Query(Criteria.where("customId").is(product.getCustomId()));
+	         Update update = new Update();
+	         update.set("user", updatedUser);
+	         mongoTemplate.updateFirst(query, update, ProductRequest.class);
+	     }
+	    }
+		
+		// TODO Auto-generated method stub
+		
+	}
+
 	/*
 	 * @Override public ProductRequest updateProduct(Long id, ProductRequest
 	 * productRequest) { ProductRequest product
@@ -197,4 +212,4 @@ public class ProductService implements ProductServiceI {
 	 * 
 	 * //return productRepository.update(id, productRequest); } return null; }
 	 */
-}
+
