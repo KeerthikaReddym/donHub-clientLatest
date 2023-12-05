@@ -44,7 +44,7 @@ public class ProductController {
 			@RequestParam("description") String description, @RequestParam("price") Double price,
 			@RequestParam("category") Category category, @RequestParam("condition") Condition condition,
 
-			@RequestParam("emailId") String emailId, @RequestParam("date") String dateString,
+			@RequestParam("emailId") String emailId,
 			@RequestParam("images") MultipartFile[] images) {
 
 
