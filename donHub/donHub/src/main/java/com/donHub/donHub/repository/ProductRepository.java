@@ -10,11 +10,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.data.repository.query.FluentQuery.FetchableFluentQuery;
 import org.springframework.stereotype.Repository;
 
 import com.donHub.donHub.model.ProductRequest;
-import com.donHub.donHub.model.ProductResponse;
 
 @Repository
 public class ProductRepository implements ProductRepositoryI {
@@ -26,6 +26,17 @@ public class ProductRepository implements ProductRepositoryI {
         this.mongoTemplate = mongoTemplate;
     }
 
+	/*
+	 * public ProductRequest updateProduct(Long id, ProductRequest updatedProduct) {
+	 * Query query = new Query(Criteria.where("Id").is(id));
+	 * 
+	 * Update update = new Update(); update.set("name", updatedProduct.getName());
+	 * update.set("price", updatedProduct.getPrice()); // Add other fields as needed
+	 * 
+	 * mongoTemplate.updateFirst(query, update, ProductRequest.class);
+	 * 
+	 * return updatedProduct; }
+	 */
 	@Override
 	public <S extends ProductRequest> S insert(S entity) {
 		// TODO Auto-generated method stub
