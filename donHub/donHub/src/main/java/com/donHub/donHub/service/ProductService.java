@@ -158,9 +158,16 @@ public class ProductService implements ProductServiceI {
 	public Boolean updateProduct(Long id, ProductRequest productRequest) {
         Query query = new Query(Criteria.where("customId").is(id));
         Update update = new Update();
-        update.set("name", productRequest.getName());
         ProductRequest product = productRepository.findByCustomId(id);
 
+        		
+        if(productRequest.getName()!=null&&(!productRequest.getName().equals(product.getName())))
+        update.set("name", productRequest.getName());
+        if(productRequest.getCategory()!=null&&(!productRequest.getCategory().equals(product.getCategory())))
+            update.set("getCategory", productRequest.getCategory());
+        if(productRequest.getCondition()!=null&&(!productRequest.getCondition().equals(product.getCondition())))
+            update.set("condition", productRequest.getCondition());
+        if(productRequest.getPrice()!=0&&(productRequest.getPrice()!=product.getPrice()));
         update.set("price", productRequest.getPrice());
         if(product.getCustomId().equals(id)&&product.getEmailId().equals(productRequest.getEmailId())) {
             mongoTemplate.updateFirst(query, update, ProductRequest.class);
