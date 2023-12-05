@@ -14,6 +14,8 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import com.donHub.donHub.common.CommonMethods;
+import com.donHub.donHub.model.Category;
+import com.donHub.donHub.model.Condition;
 import com.donHub.donHub.model.ProductRequest;
 import com.donHub.donHub.model.UserRequest;
 import com.donHub.donHub.repository.ProductRepositoryI;
@@ -60,7 +62,7 @@ public class ProductService implements ProductServiceI {
 	 *
 	 * @return The list of all products.
 	 */
-	// @Cacheable(value = "productsCache")
+	@Cacheable(value = "productsCache")
 	@Override
 	public List<ProductRequest> getProducts() {
 
@@ -207,40 +209,12 @@ public class ProductService implements ProductServiceI {
 	}
 
 	@Override
-	public List<ProductRequest> getProductsByFIlters(ProductRequest request) {
+	public List<ProductRequest> getProductsByFIlters(Category category, Condition condition) {
 		Criteria criteria = new Criteria();
-		if (request.getCategory() != null && request.getCondition() != null && request.getPrice() > 0.0) {
+		if (category != null && condition != null) {
 			criteria.andOperator(
-					Criteria.where("price").lte(request.getPrice()),
-					Criteria.where("category").is(request.getCategory()),
-					Criteria.where("condition").is(request.getCondition()));
-		} else if (request.getCategory() != null || request.getCondition() != null || request.getPrice() > 0.0) {
-			if (request.getCategory() != null && request.getCondition() != null && request.getPrice() == 0.0) {
-				criteria.andOperator(
-						Criteria.where("condition").is(request.getCondition()),
-						Criteria.where("category").is(request.getCategory())
-
-				);
-			}
-			if (request.getCategory() != null && request.getCondition() == null && request.getPrice() > 0.0) {
-				criteria.andOperator(
-
-						Criteria.where("category").is(request.getCategory()),
-						Criteria.where("price").lte(request.getPrice())
-
-				);
-			}
-			if (request.getCategory() == null && request.getCondition() != null && request.getPrice() > 0.0) {
-				criteria.andOperator(
-
-						Criteria.where("condition").is(request.getCondition()),
-						Criteria.where("price").lte(request.getPrice())
-
-				);
-			}
-
-		} else if (request.getCategory() == null && request.getCondition() == null && request.getPrice() > 0.0) {
-			return null;
+					Criteria.where("category").is(category),
+					Criteria.where("condition").is(condition));
 		}
 
 		Query query = new Query(criteria);

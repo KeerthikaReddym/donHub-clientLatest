@@ -130,7 +130,7 @@ public class ProductController {
 		return new ResponseEntity<>(productServiceI.getProducts(), HttpStatus.OK);
 	}
 
-	@GetMapping({ "getByName/{name}" })
+	@GetMapping({"getByName/{name}" })
 	public ResponseEntity<List<ProductRequest>> getProductByName(@PathVariable String name) {
 		List<ProductRequest> product = productServiceI.getProductByName(name);
 
@@ -138,9 +138,9 @@ public class ProductController {
 				: ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 	}
 
-	@GetMapping({ "getProductsByFilters" })
-	public ResponseEntity<List<ProductRequest>> getProductsByFilters(@RequestBody ProductRequest productRequest) {
-		List<ProductRequest> product = productServiceI.getProductsByFIlters(productRequest);
+	@GetMapping({"/getProductsByFilters/{category}/{condition}"})
+	public ResponseEntity<List<ProductRequest>> getProductsByFilters(@PathVariable Category category, @PathVariable Condition condition) {
+		List<ProductRequest> product = productServiceI.getProductsByFIlters(category, condition);
 
 		return product != null ? ResponseEntity.status(HttpStatus.OK).body(product)
 				: ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
@@ -162,7 +162,7 @@ public class ProductController {
 		else
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 	}
-	@GetMapping({ "HighestgetByPrice/{price}" })
+	@GetMapping({"HighestgetByPrice/{price}" })
 	public ResponseEntity<List<ProductRequest>> getProductByPriceHigh(@PathVariable double price) {
 		List<ProductRequest> product = productServiceI.getProductByPriceHigh(price);
 
