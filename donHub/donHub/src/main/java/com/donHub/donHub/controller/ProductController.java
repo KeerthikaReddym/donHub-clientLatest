@@ -1,10 +1,7 @@
 package com.donHub.donHub.controller;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +12,12 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,9 +39,13 @@ public class ProductController {
 	 * 
 	 * @return Add data in Product table
 	 */
+<<<<<<< Updated upstream
 
 	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
+=======
+	
+>>>>>>> Stashed changes
 	@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<ProductRequest> addProduct(@RequestParam("name") String name,
 			@RequestParam("description") String description, @RequestParam("price") Double price,
@@ -119,9 +122,15 @@ public class ProductController {
 	 */
 
 	@PutMapping("/{id}")
+<<<<<<< Updated upstream
 	public ResponseEntity<?> updateProduct(@PathVariable Long id, @RequestBody ProductRequest productRequest) {
 		ProductRequest product = productServiceI.updateProduct(id, productRequest);
 		return product != null ? ResponseEntity.status(HttpStatus.OK).body(product)
+=======
+	public ResponseEntity<String> updateProduct(@PathVariable Long id, @RequestBody ProductRequest productRequest){
+		Boolean product = productServiceI.updateProduct(id, productRequest);
+		return product? ResponseEntity.status(HttpStatus.OK).body("Updated successfully")
+>>>>>>> Stashed changes
 				: ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Product Found!");
 
 	}
@@ -172,12 +181,13 @@ public class ProductController {
 				: ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Product found!");
 	}
 
-	@DeleteMapping("/deleteAll")
-	public ResponseEntity<String> deleteAll() {
-		return productServiceI.deleteAllProducts() == true
-				? ResponseEntity.status(HttpStatus.OK).body("successfully deleted everything")
-				: ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Product found!");
-	}
+	
+	 	 @DeleteMapping() 
+	 	 public ResponseEntity<String> deleteAll() {
+	  return productServiceI.deleteAllProducts() == true ?
+	  ResponseEntity.status(HttpStatus.OK).body("successfully deleted everything")
+	  : ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Product found!"); }
+	 
 
 	@DeleteMapping("/deleteById/{id}")
 	public ResponseEntity<String> deleteById(@PathVariable Long id) {

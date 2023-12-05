@@ -3,8 +3,15 @@ package com.donHub.donHub.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+<<<<<<< Updated upstream
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+=======
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+>>>>>>> Stashed changes
 import org.springframework.stereotype.Service;
 
 import com.donHub.donHub.common.CommonMethods;
@@ -16,6 +23,12 @@ public class ProductService implements ProductServiceI {
 
 	@Autowired
 	private ProductRepositoryI productRepository;
+	
+	private final MongoTemplate mongoTemplate;
+	 public ProductService(MongoTemplate mongoTemplate) {
+	        this.mongoTemplate = mongoTemplate;
+	    }
+	
 
 	/**
 	 * Adds a new product to the database.
@@ -124,10 +137,35 @@ public class ProductService implements ProductServiceI {
 		return true;
 	}
 
+	/*
+	 * @Override public ProductRequest updateProduct(Long id, ProductRequest
+	 * productRequest) { ProductRequest product
+	 * =productRepository.findByCustomId(id);
+	 * if(product.getCustomId().equals(id)&&product.getEmailId().equals(
+	 * productRequest.getEmailId())) { productRepository.updateProduct(id,
+	 * productRequest); } return null; }
+	 */
 	@Override
+<<<<<<< Updated upstream
 	public ProductRequest updateProduct(Long id, ProductRequest productRequest) {
 		// TODO Auto-generated method stub
 		return null;
+=======
+	public Boolean updateProduct(Long id, ProductRequest productRequest) {
+        Query query = new Query(Criteria.where("customId").is(id));
+        Update update = new Update();
+        update.set("name", productRequest.getName());
+        ProductRequest product = productRepository.findByCustomId(id);
+
+        update.set("price", productRequest.getPrice());
+        if(product.getCustomId().equals(id)&&product.getEmailId().equals(productRequest.getEmailId())) {
+            mongoTemplate.updateFirst(query, update, ProductRequest.class);
+            return true;
+		}
+        return false;
+
+		
+>>>>>>> Stashed changes
 	}
 
 	/*

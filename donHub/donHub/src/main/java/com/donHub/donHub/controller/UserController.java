@@ -133,9 +133,9 @@ public class UserController {
 	 */
 
 	@PutMapping("/updateUser/{userId}")
-	public ResponseEntity<?> updateUser(@PathVariable Long userId, @RequestBody UserRequest data) {
-		UserRequest updatedUser = userService.updateUser(userId, data);
-		return updatedUser != null ? ResponseEntity.status(HttpStatus.OK).body(updatedUser)
+	public ResponseEntity<String> updateUser(@PathVariable Long userId, @RequestBody UserRequest data) {
+		Boolean updatedUser = userService.updateUser(userId, data);
+		return updatedUser ? ResponseEntity.status(HttpStatus.OK).body("successfully updated")
 				: ResponseEntity.status(HttpStatus.NOT_FOUND).body("No user found to update!");
 	}
 
@@ -147,8 +147,8 @@ public class UserController {
 	 *         deletion
 	 */
 
-	@DeleteMapping("/deleteAll")
-	public ResponseEntity<Object> deleteAllUsers() {
+	@DeleteMapping()
+	public ResponseEntity<String> deleteAllUsers() {
 		Boolean areDeleted = userService.deleteAll();
 		return areDeleted ? ResponseEntity.status(HttpStatus.OK).body("All users deleted successfully!")
 				: ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No users found to delete!");
