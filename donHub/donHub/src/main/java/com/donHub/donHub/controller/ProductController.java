@@ -12,10 +12,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-<<<<<<< Updated upstream
 
-=======
->>>>>>> Stashed changes
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,13 +36,7 @@ public class ProductController {
 	 * 
 	 * @return Add data in Product table
 	 */
-<<<<<<< Updated upstream
 
-	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-=======
-	
->>>>>>> Stashed changes
 	@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<ProductRequest> addProduct(@RequestParam("name") String name,
 			@RequestParam("description") String description, @RequestParam("price") Double price,
@@ -122,15 +113,9 @@ public class ProductController {
 	 */
 
 	@PutMapping("/{id}")
-<<<<<<< Updated upstream
-	public ResponseEntity<?> updateProduct(@PathVariable Long id, @RequestBody ProductRequest productRequest) {
-		ProductRequest product = productServiceI.updateProduct(id, productRequest);
-		return product != null ? ResponseEntity.status(HttpStatus.OK).body(product)
-=======
 	public ResponseEntity<String> updateProduct(@PathVariable Long id, @RequestBody ProductRequest productRequest){
 		Boolean product = productServiceI.updateProduct(id, productRequest);
 		return product? ResponseEntity.status(HttpStatus.OK).body("Updated successfully")
->>>>>>> Stashed changes
 				: ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Product Found!");
 
 	}

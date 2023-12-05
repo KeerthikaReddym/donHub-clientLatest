@@ -4,24 +4,19 @@ package com.donHub.donHub.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-<<<<<<< Updated upstream
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-=======
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
->>>>>>> Stashed changes
 import org.springframework.stereotype.Service;
 
 import com.donHub.donHub.common.CommonMethods;
-import com.donHub.donHub.model.ProductRequest;
 import com.donHub.donHub.model.UserRequest;
 import com.donHub.donHub.model.ValidUser;
 import com.donHub.donHub.repository.UserRepositoryI;
 import com.donHub.donHub.repository.ValidUserRepositoryI;
-import com.mongodb.client.result.UpdateResult;
 
 @Service
 public class UserService implements UserServiceI {
@@ -31,28 +26,26 @@ public class UserService implements UserServiceI {
 
 	@Autowired
 	private ValidUserRepositoryI validUserRepositoryI;
-<<<<<<< Updated upstream
+
 	
-	@Cacheable(value = "allUsersCache")
-=======
+	
+
 
 	private final MongoTemplate mongoTemplate;
 
->>>>>>> Stashed changes
+	@Cacheable(value = "allUsersCache")
 	@Override
 	public List<UserRequest> getAllUsers() {
 
 		return userRepository.findAll();
 	}
 
-<<<<<<< Updated upstream
-	@Cacheable(value = "userByIdCache", key = "#id")
-=======
+	
 	public UserService(MongoTemplate mongoTemplate) {
 		this.mongoTemplate = mongoTemplate;
 	}
 
->>>>>>> Stashed changes
+	@Cacheable(value = "userByIdCache", key = "#id")
 	@Override
 	public UserRequest getUserById(Long id) {
 		// ObjectId objectId = new ObjectId(id);
