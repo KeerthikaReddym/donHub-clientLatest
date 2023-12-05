@@ -10,13 +10,20 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.repository.query.FluentQuery.FetchableFluentQuery;
 
 import com.donHub.donHub.model.UserRequest;
 
 public class UserRepository implements UserRepositoryI {
 	
+	  private final MongoTemplate mongoTemplate;
 
+	    
+	    public UserRepository(MongoTemplate mongoTemplate) {
+	        this.mongoTemplate = mongoTemplate;
+	    }
 	
 	@Override
 	public <S extends UserRequest> S insert(S entity) {
@@ -79,7 +86,7 @@ public class UserRepository implements UserRepositoryI {
 
 	@Override
 	public void deleteAll() {
-		// TODO Auto-generated method stub
+	    mongoTemplate.remove(new Query(), UserRequest.class);
 
 	}
 
@@ -155,8 +162,8 @@ public class UserRepository implements UserRepositoryI {
 
 	@Override
 	public void deleteById(Long id) {
-		// TODO Auto-generated method stub
-		
+		 Query query = new Query(Criteria.where("Id").is(id));
+	        mongoTemplate.remove(query, UserRequest.class);		
 	}
 
 	
@@ -169,8 +176,7 @@ public class UserRepository implements UserRepositoryI {
 
 	@Override
 	public void deleteAllById(Iterable<? extends Long> ids) {
-		// TODO Auto-generated method stub
-		
+	
 	}
 
 	@Override

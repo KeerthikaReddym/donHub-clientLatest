@@ -1,5 +1,5 @@
 package com.donHub.donHub.model;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -24,12 +24,14 @@ import lombok.NoArgsConstructor;
 	    private Category category;
 	    private List<byte[]> image;
 	    private Condition condition;
-	    private Date date;
 	    
 	    @DBRef
 	    private UserRequest user;
+	    private LocalDateTime date;
+	    
 	    @Id
 	    private ObjectId _id;
+
 	    @Field("Id")
 	    private Long customId;
 		public void setUserRequest(UserRequest userRequest) {
@@ -38,4 +40,8 @@ import lombok.NoArgsConstructor;
 			
 		}
 
+	 // Method to set the current date
+	    public void setCurrentDate() {
+	        this.date = LocalDateTime.now();
+	    }
 	   }

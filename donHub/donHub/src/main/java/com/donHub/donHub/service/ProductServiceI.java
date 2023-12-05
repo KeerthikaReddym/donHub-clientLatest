@@ -10,14 +10,17 @@ public interface ProductServiceI {
 	public ProductRequest addProduct(ProductRequest productRequest);
 	
 	public List<ProductRequest> getProducts();
+	public Boolean updateProduct(Long id, ProductRequest productRequest);
 	
 	public Boolean deleteAllProducts();
 	public Boolean deleteById(Long id);
 	public ProductRequest getProductByName(String id);
 	public ProductRequest getProductByCondition(String condition);
-	public ProductRequest getProductByPrice(double price);
+	public List<ProductRequest> getProductByPriceLow(double price);
+	public List<ProductRequest> getProductByPriceHigh(double price);
 	public ProductRequest getProductByEmail(String email);
 	public ProductRequest getProductByCategory(String category);
+	
 
 	
 

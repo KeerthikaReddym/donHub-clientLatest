@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.data.repository.query.FluentQuery.FetchableFluentQuery;
 import org.springframework.stereotype.Repository;
 
@@ -25,6 +26,17 @@ public class ProductRepository implements ProductRepositoryI {
         this.mongoTemplate = mongoTemplate;
     }
 
+	/*
+	 * public ProductRequest updateProduct(Long id, ProductRequest updatedProduct) {
+	 * Query query = new Query(Criteria.where("Id").is(id));
+	 * 
+	 * Update update = new Update(); update.set("name", updatedProduct.getName());
+	 * update.set("price", updatedProduct.getPrice()); // Add other fields as needed
+	 * 
+	 * mongoTemplate.updateFirst(query, update, ProductRequest.class);
+	 * 
+	 * return updatedProduct; }
+	 */
 	@Override
 	public <S extends ProductRequest> S insert(S entity) {
 		// TODO Auto-generated method stub
@@ -205,6 +217,29 @@ public class ProductRepository implements ProductRepositoryI {
 		Query query = new Query(Criteria.where("category").is(category));
 	    return mongoTemplate.findOne(query, ProductRequest.class);
 	}
+
+//	/*
+//	 * @Override public ProductRequest update(Long id, ProductRequest product) { //
+//	 * Create a query to find the product by its ID Query query = new
+//	 * Query(Criteria.where("Id").is(id));
+//	 * 
+//	 * // Create an update operation to set the new price ProductResponse
+//	 * productResponse = new ProductResponse();
+//	 * productResponse.setName(product.getName());
+//	 * productResponse.setCategory(product.getCategory());
+//	 * productResponse.setCondition(product.getCondition());
+//	 * 
+//	 * productResponse.setDescription(product.getDescription());
+//	 * productResponse.setPrice(product.getPrice());
+//	 * 
+//	 * 
+//	 * productResponse.setName(product.getName());// Perform the update operation
+//	 * return null; }
+//	 */
+
+	
+
+	
 
     // Implement custom queries or methods here if needed
 }

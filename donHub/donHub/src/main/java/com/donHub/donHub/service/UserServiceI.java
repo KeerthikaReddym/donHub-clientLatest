@@ -14,7 +14,7 @@ import com.donHub.donHub.model.UserRequest;
 	 public UserRequest getUserByEmailId(String EmailId);
 	 public UserRequest validateUser(String EmailId, String password);
 	 public UserRequest createUser(UserRequest data);
-	 public UserRequest updateUser(Long id, UserRequest data);
+	 public Boolean updateUser(Long id, UserRequest data);
 	 public Boolean deleteUserById(Long id);
 
 	 public Boolean deleteAll();
