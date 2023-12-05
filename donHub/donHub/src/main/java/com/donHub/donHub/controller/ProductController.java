@@ -131,19 +131,26 @@ public class ProductController {
 	}
 
 	@GetMapping({ "getByName/{name}" })
-	public ResponseEntity<?> getProductByName(@PathVariable String name) {
-		ProductRequest product = productServiceI.getProductByName(name);
+	public ResponseEntity<List<ProductRequest>> getProductByName(@PathVariable String name) {
+		List<ProductRequest> product = productServiceI.getProductByName(name);
 
 		return product != null ? ResponseEntity.status(HttpStatus.OK).body(product)
-				: ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Product found!");
+				: ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 	}
 
-	@GetMapping({ "getByCondition/{condition}" })
-	public ResponseEntity<?> getProductByCondition(@PathVariable String condition) {
-		ProductRequest product = productServiceI.getProductByCondition(condition);
+	@GetMapping({ "getProductsByFilters" })
+	public ResponseEntity<List<ProductRequest>> getProductsByFilters(@RequestBody ProductRequest productRequest) {
+		List<ProductRequest> product = productServiceI.getProductsByFIlters(productRequest);
 
 		return product != null ? ResponseEntity.status(HttpStatus.OK).body(product)
-				: ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Product found!");
+				: ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+	}
+	@GetMapping({ "getByCondition/{condition}" })
+	public ResponseEntity<List<ProductRequest>> getProductByCondition(@PathVariable String condition) {
+		List<ProductRequest> product = productServiceI.getProductByCondition(condition);
+
+		return product != null ? ResponseEntity.status(HttpStatus.OK).body(product)
+				: ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 	}
 
 	@GetMapping({ "LowestgetByPrice/{price}" })
@@ -173,10 +180,10 @@ public class ProductController {
 
 	@GetMapping({ "getByCategory/{category}" })
 	public ResponseEntity<?> getProductByCategory(@PathVariable String category) {
-		ProductRequest product = productServiceI.getProductByCategory(category);
+		List<ProductRequest> product = productServiceI.getProductByCategory(category);
 
 		return product != null ? ResponseEntity.status(HttpStatus.OK).body(product)
-				: ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Product found!");
+				: ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 	}
 
 	

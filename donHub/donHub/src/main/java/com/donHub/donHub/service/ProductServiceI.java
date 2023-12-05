@@ -15,12 +15,13 @@ public interface ProductServiceI {
 	
 	public Boolean deleteAllProducts();
 	public Boolean deleteById(Long id);
-	public ProductRequest getProductByName(String id);
-	public ProductRequest getProductByCondition(String condition);
+	public List<ProductRequest> getProductByName(String id);
+	public List<ProductRequest> getProductByCondition(String condition);
+	public List<ProductRequest> getProductsByFIlters(ProductRequest request);
 	public List<ProductRequest> getProductByPriceLow(double price);
 	public List<ProductRequest> getProductByPriceHigh(double price);
 	public List<ProductRequest> getProductByEmail(String email);
-	public ProductRequest getProductByCategory(String category);
+	public List<ProductRequest> getProductByCategory(String category);
 	
 
 	

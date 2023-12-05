@@ -96,15 +96,20 @@ public class ProductService implements ProductServiceI {
 
     @Cacheable(value = "productByNameCache", key = "#name")	
 	@Override
-	public ProductRequest getProductByName(String name) {
-		return productRepository.findByName(name);
+	public List<ProductRequest> getProductByName(String name) {
+    	Query query = new Query(Criteria.where("name").is(name));
+        List<ProductRequest> list = mongoTemplate.find(query, ProductRequest.class);
+        return list;
+		
 		
 	}
     
     @Cacheable(value = "productByConditionCache", key = "#condition")
 	@Override
-	public ProductRequest getProductByCondition(String condition) {
-		return productRepository.findByCondition(condition);
+	public List<ProductRequest> getProductByCondition(String condition) {
+    	Query query = new Query(Criteria.where("condition").is(condition));
+        List<ProductRequest> list = mongoTemplate.find(query, ProductRequest.class);
+        return list;
 		
 	}
     
@@ -121,8 +126,10 @@ public class ProductService implements ProductServiceI {
     
     @Cacheable(value = "productByCategoryCache", key = "#category")
 	@Override
-	public ProductRequest getProductByCategory(String category) {
-		return productRepository.findByCategory(category);
+	public List<ProductRequest> getProductByCategory(String category) {
+    	Query query = new Query(Criteria.where("category").is(category));
+        List<ProductRequest> list = mongoTemplate.find(query, ProductRequest.class);
+        return list;
 		
 	}
 	
@@ -205,6 +212,14 @@ public class ProductService implements ProductServiceI {
 	         mongoTemplate.updateFirst(query, update, ProductRequest.class);
 	     }
 	    }
+
+
+	@Override
+	public List<ProductRequest> getProductsByFIlters(ProductRequest request) {
+		Query query = new Query(Criteria.where("price").gte(null));
+        List<ProductRequest> list = mongoTemplate.find(query, ProductRequest.class);
+		return list;
+	}
 		
 		// TODO Auto-generated method stub
 		
