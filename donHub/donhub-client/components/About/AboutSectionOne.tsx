@@ -221,55 +221,7 @@ const AboutSectionOne = () => {
                 </CardFooter>
               </Card>
             </div>
-            <div className="w-full px-4 lg:w-1/2">
-              <Card>
-                <CardHeader className="justify-between">
-                  <div className="flex gap-5">
-                  <Image src="/images/about/images.png" style={{ borderRadius: '50%', overflow: 'hidden', margin : 10}} width={100} height={100} alt="No image"/>
-                    {/* <Avatar
-                      isBordered
-                      radius="full"
-                      src="/images/about/images.png"
-                      alt="No image"
-                    /> */}
-                    <div className="flex flex-col items-start justify-center gap-1">
-                      <h4 className="text-small text-default-600 font-semibold leading-none">
-                        Full names
-                      </h4>
-                      <h5 className="text-small text-default-400 tracking-tight">
-                        @usernames
-                      </h5>
-                    </div>
-                  </div>
-                </CardHeader>
-                <CardBody className="text-small text-default-400 px-3 py-0">
-                  <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  </p>
-                  <span className="pt-2">
-                    #FrontendWithZoey
-                    <span className="py-2" aria-label="computer" role="img">
-                      💻
-                    </span>
-                  </span>
-                </CardBody>
-                <CardFooter className="gap-3">
-                  <div className="flex gap-1">
-                    <p className="text-default-400 text-small font-semibold">
-                      4
-                    </p>
-                    <p className=" text-default-400 text-small">Following</p>
-                  </div>
-                  <div className="flex gap-1">
-                    <p className="text-default-400 text-small font-semibold">
-                      97.1K
-                    </p>
-                    <p className="text-default-400 text-small">Followers</p>
-                  </div>
-                </CardFooter>
-              </Card>
-            </div>
+            
           </div>
         </div>
       </div>
