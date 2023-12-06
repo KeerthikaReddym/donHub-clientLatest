@@ -4,9 +4,7 @@ import SingleProduct from "./SingleProduct";
 import { ProductsContext } from "@/contexts/ProductContext";
 
 const ProductGrid = () => {
-  //const [products, setProducts] = useState([]);
   const { products, setProducts } = useContext(ProductsContext);
-  //const {isMyProductsChecked} = useContext(MyProductsContext);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -38,7 +36,7 @@ const ProductGrid = () => {
       id="product"
       className="bg-gray-light py-16 dark:bg-bg-color-dark md:py-20 lg:py-28"
     >
-      <div className="container h-full">
+      <div className="container">
         {hasProducts ? (
           <div className="grid grid-cols-1 gap-x-8 gap-y-10 md:grid-cols-2 md:gap-x-6 lg:gap-x-8 xl:grid-cols-3">
             {products.map((product) => (
