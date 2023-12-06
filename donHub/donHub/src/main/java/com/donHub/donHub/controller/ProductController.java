@@ -44,9 +44,7 @@ public class ProductController {
 			@RequestParam("description") String description, @RequestParam("price") Double price,
 			@RequestParam("category") Category category, @RequestParam("condition") Condition condition,
 
-			@RequestParam("emailId") String emailId,
-			@RequestParam("images") MultipartFile[] images) {
-
+			@RequestParam("emailId") String emailId, @RequestParam("images") MultipartFile[] images) {
 
 		ProductRequest productRequest = new ProductRequest();
 		productRequest.setName(name);
@@ -117,9 +115,9 @@ public class ProductController {
 	 */
 
 	@PutMapping("/{id}")
-	public ResponseEntity<String> updateProduct(@PathVariable Long id, @RequestBody ProductRequest productRequest){
+	public ResponseEntity<String> updateProduct(@PathVariable Long id, @RequestBody ProductRequest productRequest) {
 		Boolean product = productServiceI.updateProduct(id, productRequest);
-		return product? ResponseEntity.status(HttpStatus.OK).body("Updated successfully")
+		return product ? ResponseEntity.status(HttpStatus.OK).body("Updated successfully")
 				: ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Product Found!");
 
 	}
@@ -130,7 +128,7 @@ public class ProductController {
 		return new ResponseEntity<>(productServiceI.getProducts(), HttpStatus.OK);
 	}
 
-	@GetMapping({"getByName/{name}" })
+	@GetMapping({ "getByName/{name}" })
 	public ResponseEntity<List<ProductRequest>> getProductByName(@PathVariable String name) {
 		List<ProductRequest> product = productServiceI.getProductByName(name);
 
@@ -138,13 +136,15 @@ public class ProductController {
 				: ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 	}
 
-	@GetMapping({"/getProductsByFilters/{category}/{condition}"})
-	public ResponseEntity<List<ProductRequest>> getProductsByFilters(@PathVariable Category category, @PathVariable Condition condition) {
-		List<ProductRequest> product = productServiceI.getProductsByFIlters(category, condition);
+	@GetMapping({ "/getProductsByFilters/{category}/{condition}" })
+	public ResponseEntity<List<ProductRequest>> getProductsByFilters(@PathVariable Category category,
+			@PathVariable Condition condition) {
+		List<ProductRequest> product = productServiceI.getProductsByFilters(category, condition);
 
 		return product != null ? ResponseEntity.status(HttpStatus.OK).body(product)
 				: ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 	}
+
 	@GetMapping({ "getByCondition/{condition}" })
 	public ResponseEntity<List<ProductRequest>> getProductByCondition(@PathVariable String condition) {
 		List<ProductRequest> product = productServiceI.getProductByCondition(condition);
@@ -162,7 +162,8 @@ public class ProductController {
 		else
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 	}
-	@GetMapping({"HighestgetByPrice/{price}" })
+
+	@GetMapping({ "HighestgetByPrice/{price}" })
 	public ResponseEntity<List<ProductRequest>> getProductByPriceHigh(@PathVariable double price) {
 		List<ProductRequest> product = productServiceI.getProductByPriceHigh(price);
 
@@ -186,13 +187,12 @@ public class ProductController {
 				: ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 	}
 
-	
-	 	 @DeleteMapping() 
-	 	 public ResponseEntity<String> deleteAll() {
-	  return productServiceI.deleteAllProducts() ?
-	  ResponseEntity.status(HttpStatus.OK).body("successfully deleted everything")
-	  : ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Product found!"); }
-	 
+	@DeleteMapping()
+	public ResponseEntity<String> deleteAll() {
+		return productServiceI.deleteAllProducts()
+				? ResponseEntity.status(HttpStatus.OK).body("successfully deleted everything")
+				: ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Product found!");
+	}
 
 	@DeleteMapping("/deleteById/{id}")
 	public ResponseEntity<String> deleteById(@PathVariable Long id) {

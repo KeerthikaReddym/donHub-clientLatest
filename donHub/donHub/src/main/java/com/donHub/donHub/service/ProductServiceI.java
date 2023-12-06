@@ -18,7 +18,7 @@ public interface ProductServiceI {
 	public Boolean deleteById(Long id);
 	public List<ProductRequest> getProductByName(String id);
 	public List<ProductRequest> getProductByCondition(String condition);
-	public List<ProductRequest> getProductsByFIlters(Category category, Condition condition);
+	public List<ProductRequest> getProductsByFilters(Category category, Condition condition);
 	public List<ProductRequest> getProductByPriceLow(double price);
 	public List<ProductRequest> getProductByPriceHigh(double price);
 	public List<ProductRequest> getProductByEmail(String email);

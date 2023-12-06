@@ -3,6 +3,7 @@
 import { useState, useContext } from "react";
 import { ProductsContext } from "@/contexts/ProductContext";
 import { AuthContext } from "@/contexts/AuthContext";
+//import { MyProductsContext } from "@/contexts/MyProductsContext";
 
 const Sidebar = () => {
   const [category, setCategory] = useState("");
@@ -10,7 +11,18 @@ const Sidebar = () => {
   const [myProducts, setMyProducts] = useState(false);
 
   const { setProducts } = useContext(ProductsContext);
+  //const { setIsMyProductsChecked } = useContext(MyProductsContext);
   const { user } = useContext(AuthContext);
+
+  // const handleMyProductsChange = (e) => {
+  //   setIsMyProductsChecked(e.target.checked);
+  // };
+
+  // const handleBothChanges = (e) => {
+  //   setMyProducts(e);
+  //   handleMyProductsChange(e);
+  // }
+
   const applyFilters = async () => {
     let url;
     let response, data;
