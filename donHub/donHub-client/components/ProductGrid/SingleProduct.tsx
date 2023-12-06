@@ -7,18 +7,12 @@ import { MdDelete } from "react-icons/md";
 import { FiPocket } from "react-icons/fi";
 
 const SingleProduct = ({ product, onDelete} ) => {
-  //console.log('Product ID:', product.id); 
   const { user } = useContext(AuthContext);
   const { name, description, image, category, condition, date, price, user: productUser } = product;
-  const { setProducts } = useContext(ProductsContext);
-
-  // const handleProductDelete = (deletedProductId) => {
-  //   setProducts((currentProducts) => currentProducts.filter((product) => product.id !== deletedProductId));
-  // };
-
- // console.log("Product to delete:",product);
+  
   const handleDelete = async () => {
     const productId = product.customId;
+    console.log("Deleting product id:", productId);
     try {
       const response = await fetch(`http://localhost:8080/donHub/product/deleteById/${productId}`, {
         method: 'DELETE',
@@ -27,10 +21,7 @@ const SingleProduct = ({ product, onDelete} ) => {
       if (!response.ok) {
         throw new Error('Failed to delete the product');
       }
-      onDelete(productId);  
-      //alert("Product deleted successfully!");
-      // Additional logic to remove the deleted product from the UI
-  
+      onDelete(productId);
     } catch (error) {
       console.error("Error deleting product: ", productId, error);
       alert("Error deleting product");
@@ -134,6 +125,9 @@ const SingleProduct = ({ product, onDelete} ) => {
                 <p className="text-xs text-body-color">
                   {productUser.emailId}
                 </p>
+                <p className="text-xs text-body-color">
+                  Ph: {productUser.phoneNo}
+                </p>
               </div>
             </div>
             <div className="w-full">
@@ -151,7 +145,7 @@ const SingleProduct = ({ product, onDelete} ) => {
                     <FiPocket /> 
                   </button>
                   <button onClick={handleDelete} className="delete-button ml-3">
-                    <MdDelete /> {/* Delete icon */}
+                    <MdDelete /> 
                   </button>
                 </>
               )}
