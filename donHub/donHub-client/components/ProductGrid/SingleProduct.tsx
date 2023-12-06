@@ -55,7 +55,7 @@ const SingleProduct = ({ product, onDelete} ) => {
   return (
     <>
       <div
-        className="wow fadeInUp group relative overflow-hidden rounded-sm bg-white shadow-one duration-300 hover:shadow-two dark:bg-dark dark:hover:shadow-gray-dark"
+        className="wow fadeInUp group relative overflow-hidden rounded-sm bg-gray-100 shadow-one duration-300 hover:shadow-two dark:bg-dark dark:hover:shadow-gray-dark"
         data-wow-delay=".1s"
       >
         <Link

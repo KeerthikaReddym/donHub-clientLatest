@@ -34,7 +34,7 @@ const ProductGrid = () => {
   return (
     <section
       id="product"
-      className="bg-gray-light py-16 dark:bg-bg-color-dark md:py-20 lg:py-28"
+      className=" py-16 md:py-20 lg:py-28"
     >
       <div className="container">
         {hasProducts ? (
@@ -49,7 +49,7 @@ const ProductGrid = () => {
             ))}
           </div>
         ) : (
-          <div className="flex h-full items-center justify-center">
+          <div>
             <p className="text-center text-lg font-semibold text-gray-600 dark:text-gray-300">
               No products to display
             </p>
