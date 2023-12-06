@@ -1,17 +1,65 @@
 import React, { useContext } from "react";
-import { Product } from "@/types/product";
 import Image from "next/image";
 import Link from "next/link";
 import { AuthContext } from "../../contexts/AuthContext";
+import { ProductsContext } from "@/contexts/ProductContext";
+import { MdDelete } from "react-icons/md";
+import { FiPocket } from "react-icons/fi";
 
-const SingleProduct = ({ product }: { product: Product }) => {
+const SingleProduct = ({ product, onDelete} ) => {
+  //console.log('Product ID:', product.id); 
   const { user } = useContext(AuthContext);
-  const { name, description, image, date, condition, category, price } =
-    product;
+  const { name, description, image, category, condition, date, price, user: productUser } = product;
+  const { setProducts } = useContext(ProductsContext);
 
-  if (!user) {
-    return <div>Loading...</div>; // or any other loading state
-  }
+  // const handleProductDelete = (deletedProductId) => {
+  //   setProducts((currentProducts) => currentProducts.filter((product) => product.id !== deletedProductId));
+  // };
+
+ // console.log("Product to delete:",product);
+  const handleDelete = async () => {
+    const productId = product.customId;
+    try {
+      const response = await fetch(`http://localhost:8080/donHub/product/deleteById/${productId}`, {
+        method: 'DELETE',
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to delete the product');
+      }
+      onDelete(productId);  
+      //alert("Product deleted successfully!");
+      // Additional logic to remove the deleted product from the UI
+  
+    } catch (error) {
+      console.error("Error deleting product: ", productId, error);
+      alert("Error deleting product");
+    }
+  };
+  
+
+  // const handleUpdate = async(updatedData) => {
+  //   try {
+  //     const response = await fetch(`/updateProduct/${product.id}`, {
+  //       method: 'PUT',
+
+  //       body: JSON.stringify(updatedData),
+  //     });
+
+  //     if (!response.ok) {
+  //       throw new Error('Failed to update the product');
+  //     }
+
+  //     console.log("Product updated successfully: ", id);
+  //     // Update the UI to reflect the update
+  //   } catch (error) {
+  //     console.error("Error updating product: ", id, error);
+  //   }
+  // };
+
+
+
+  const isOwner = user && productUser && user.emailId === productUser.emailId;
 
   return (
     <>
@@ -44,7 +92,7 @@ const SingleProduct = ({ product }: { product: Product }) => {
                   Category
                 </h4>
                 <p className="text-xs text-body-color">
-                  {product.category.toLowerCase().split("_").join(" ")}
+                  {category.toLowerCase().split("_").join(" ")}
                 </p>
               </div>
             </div>
@@ -54,16 +102,16 @@ const SingleProduct = ({ product }: { product: Product }) => {
                   Condition
                 </h4>
                 <p className="text-xs text-body-color">
-                  {product.condition.toLowerCase().split("_").join(" ")}
+                  {condition.toLowerCase().split("_").join(" ")}
                 </p>
               </div>
             </div>
-            <div className="mr-5 flex items-center border-r border-body-color border-opacity-10 pr-5 dark:border-white dark:border-opacity-10 xl:mr-3 xl:pr-3 2xl:mr-5 2xl:pr-5">
+            <div className="mr-5 flex items-center">
               <div className="w-full">
                 <h4 className="mb-1 text-sm font-medium text-dark dark:text-white">
                   Price
                 </h4>
-                <p className="text-xs text-body-color">${product.price}</p>
+                <p className="text-xs text-body-color">${price}</p>
               </div>
             </div>
           </div>
@@ -73,28 +121,40 @@ const SingleProduct = ({ product }: { product: Product }) => {
                 <div className="relative h-10 w-10 overflow-hidden rounded-full">
                   <Image
                     referrerPolicy="no-referrer"
-                    src={`data:image/jpeg;base64,${product.user.profilePic}`}
-                    alt={product.user.name}
+                    src={`data:image/jpeg;base64,${productUser.profilePic}`}
+                    alt={productUser.name}
                     fill
                   />
                 </div>
               </div>
               <div className="w-full">
                 <h4 className="mb-1 text-sm font-medium text-dark dark:text-white">
-                  By {product.user.name.split(" ")[0]}
+                  By {productUser.name.split(" ")[0]}
                 </h4>
                 <p className="text-xs text-body-color">
-                  {product.user.emailId}
+                  {productUser.emailId}
                 </p>
               </div>
             </div>
-            <div className="inline-block">
-              <h4 className="mb-1 text-sm font-medium text-dark dark:text-white">
+            <div className="w-full">
+              <h4 className="mb-1">
                 Date
               </h4>
               <p className="text-xs text-body-color">
                 {new Date(date).toLocaleDateString()}
               </p>
+            </div>
+            <div className="actions-container ml-6 border-l border-body-color border-opacity-10 pr-5 text-sm font-medium text-dark dark:border-white dark:border-opacity-10 dark:text-white xl:mr-3 xl:pr-3 2xl:mr-5 2xl:pr-5">
+              {isOwner && (
+                <>
+                  <button className="update-button ml-3">
+                    <FiPocket /> 
+                  </button>
+                  <button onClick={handleDelete} className="delete-button ml-3">
+                    <MdDelete /> {/* Delete icon */}
+                  </button>
+                </>
+              )}
             </div>
           </div>
         </div>

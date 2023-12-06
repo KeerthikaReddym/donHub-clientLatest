@@ -213,7 +213,7 @@ public class ProductService implements ProductServiceI {
 	}
 
 	@Override
-	public List<ProductRequest> getProductsByFIlters(Category category, Condition condition) {
+	public List<ProductRequest> getProductsByFilters(Category category, Condition condition) {
 		Criteria criteria = new Criteria();
 		if (category != null && condition != null) {
 			criteria.andOperator(
